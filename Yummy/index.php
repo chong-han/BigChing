@@ -168,38 +168,271 @@
         <p><span>Check Our</span> <span class="description-title">Yummy Menu</span></p>
       </div><!-- End Section Title -->
 
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
+      <div class="container">
 
-        <div class="row gy-5">
-          <?php
-          // 包含資料庫連線檔案
-          include("db_connection.php");
+        <ul class="nav nav-tabs d-flex justify-content-center" data-aos="fade-up" data-aos-delay="100">
 
-          // 從資料庫查詢所有可用的菜單項目
-          $query = "SELECT * FROM menu WHERE is_available = 0 ORDER BY menu_ID";
-          $result = $conn->query($query);
+          <li class="nav-item">
+            <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#menu-Hotpot">
+              <h4>火鍋類</h4>
+            </a>
+          </li><!-- End tab nav item -->
 
-          if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-              echo '<div class="col-lg-4 menu-item">';
-              echo '<h4>' . htmlspecialchars($row['menu_name']) . '</h4>';
-              echo '<p class="ingredients">' . htmlspecialchars($row['description']) . '</p>';
-              echo '<p class="price">$' . number_format($row['price'], 2) . '</p>';
-              echo '</div><!-- Menu Item -->';
-            }
-          } else {
-            echo '<div class="col-12 text-center">';
-            echo '<p>目前沒有可用的菜單項目</p>';
-            echo '</div>';
-          }
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-Hotpotingredients">
+              <h4>火鍋料類</h4>
+            </a>
+          </li><!-- End tab nav item -->
 
-          // 關閉資料庫連線
-          $conn->close();
-          ?>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-noodles">
+              <h4>主食麵類</h4>
+            </a><!-- End tab nav item -->
+
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-primemeat">
+              <h4>上等肉類</h4>
+            </a>
+          </li><!-- End tab nav item -->
+
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-Beans">
+              <h4>豆品類</h4>
+            </a>
+          </li><!-- End tab nav item -->
+
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-wintervegetables">
+              <h4>冬季蔬菜類</h4>
+            </a>
+          </li><!-- End tab nav item -->
+
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-Mushrooms">
+              <h4>香菇類</h4>
+            </a>
+          </li><!-- End tab nav item -->
+
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-Other">
+              <h4>其他類</h4>
+            </a>
+          </li><!-- End tab nav item -->
+
+        </ul>
+
+        <div class="tab-content" data-aos="fade-up" data-aos-delay="200">
+
+          <div class="tab-pane fade show active" id="menu-Hotpot">
+            <div class="tab-header text-center">
+              <h3>火鍋類</h3>
+            </div>
+            <div class="row gy-5">
+              <?php
+              // 包含資料庫連線檔案
+              include("db_connection.php");
+
+              $query = "SELECT * FROM menu WHERE is_available = 0 and category='火鍋類' ORDER BY menu_ID";
+              $result = $conn->query($query);
+
+              if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                  echo '<div class="col-6 col-lg-4 menu-item">';
+                  // echo '<a href="assets/img/menu/menu-item-6.png" class="glightbox"><img src="assets/img/menu/menu-item-6.png" class="menu-img img-fluid" alt=""></a>';
+                  echo '<h4>' . htmlspecialchars($row['menu_name']) . '</h4>';
+                  // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
+                  echo '<p class="price">$' . number_format($row['price'], 2) . '</p>';
+                  echo '</div><!-- Menu Item -->';
+                }
+              } else {
+                echo '<div class="col-12 text-center"><p>目前沒有可用的菜單項目</p></div>';
+              }
+              ?>
+            </div>
+          </div><!-- End 火鍋類 Menu Content -->
+
+          <div class="tab-pane fade" id="menu-Hotpotingredients">
+            <div class="tab-header text-center">
+              <h3>火鍋料類</h3>
+            </div>
+            <div class="row gy-5">
+              <?php
+              $query = "SELECT * FROM menu WHERE is_available = 0 and category='火鍋料類' ORDER BY menu_ID";
+              $result = $conn->query($query);
+
+              if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                  echo '<div class="col-6 col-lg-4 menu-item">';
+                  // echo '<a href="assets/img/menu/menu-item-6.png" class="glightbox"><img src="assets/img/menu/menu-item-6.png" class="menu-img img-fluid" alt=""></a>';
+                  echo '<h4>' . htmlspecialchars($row['menu_name']) . '</h4>';
+                  // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
+                  echo '<p class="price">$' . number_format($row['price'], 2) . '</p>';
+                  echo '</div><!-- Menu Item -->';
+                }
+              } else {
+                echo '<div class="col-12 text-center"><p>目前沒有可用的菜單項目</p></div>';
+              }
+              ?>
+            </div>
+          </div><!-- End 火鍋料類 Menu Content -->
+
+          <div class="tab-pane fade" id="menu-noodles">
+            <div class="tab-header text-center">
+              <h3>主食麵類</h3>
+            </div>
+            <div class="row gy-5">
+              <?php
+              $query = "SELECT * FROM menu WHERE is_available = 0 and category='主食麵類' ORDER BY menu_ID";
+              $result = $conn->query($query);
+
+              if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                  echo '<div class="col-6 col-lg-4 menu-item">';
+                  // echo '<a href="assets/img/menu/menu-item-6.png" class="glightbox"><img src="assets/img/menu/menu-item-6.png" class="menu-img img-fluid" alt=""></a>';
+                  echo '<h4>' . htmlspecialchars($row['menu_name']) . '</h4>';
+                  // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
+                  echo '<p class="price">$' . number_format($row['price'], 2) . '</p>';
+                  echo '</div><!-- Menu Item -->';
+                }
+              } else {
+                echo '<div class="col-12 text-center"><p>目前沒有可用的菜單項目</p></div>';
+              }
+              ?>
+            </div>
+          </div><!-- End 主食麵類 Menu Content -->
+
+          <div class="tab-pane fade" id="menu-primemeat">
+            <div class="tab-header text-center">
+              <h3>上等肉類</h3>
+            </div>
+            <div class="row gy-5">
+              <?php
+              $query = "SELECT * FROM menu WHERE is_available = 0 and category='上等肉類' ORDER BY menu_ID";
+              $result = $conn->query($query);
+
+              if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                  echo '<div class="col-6 col-lg-4 menu-item">';
+                  // echo '<a href="assets/img/menu/menu-item-6.png" class="glightbox"><img src="assets/img/menu/menu-item-6.png" class="menu-img img-fluid" alt=""></a>';
+                  echo '<h4>' . htmlspecialchars($row['menu_name']) . '</h4>';
+                  // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
+                  echo '<p class="price">$' . number_format($row['price'], 2) . '</p>';
+                  echo '</div><!-- Menu Item -->';
+                }
+              } else {
+                echo '<div class="col-12 text-center"><p>目前沒有可用的菜單項目</p></div>';
+              }
+              ?>
+            </div>
+          </div><!-- End 上等肉類 Menu Content -->
+
+          <div class="tab-pane fade" id="menu-Beans">
+            <div class="tab-header text-center">
+              <h3>豆品類</h3>
+            </div>
+            <div class="row gy-5">
+              <?php
+              $query = "SELECT * FROM menu WHERE is_available = 0 and category='豆品類' ORDER BY menu_ID";
+              $result = $conn->query($query);
+
+              if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                  echo '<div class="col-6 col-lg-4 menu-item">';
+                  // echo '<a href="assets/img/menu/menu-item-6.png" class="glightbox"><img src="assets/img/menu/menu-item-6.png" class="menu-img img-fluid" alt=""></a>';
+                  echo '<h4>' . htmlspecialchars($row['menu_name']) . '</h4>';
+                  // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
+                  echo '<p class="price">$' . number_format($row['price'], 2) . '</p>';
+                  echo '</div><!-- Menu Item -->';
+                }
+              } else {
+                echo '<div class="col-12 text-center"><p>目前沒有可用的菜單項目</p></div>';
+              }
+              ?>
+            </div>
+          </div><!-- End 豆品類 Menu Content -->
+
+          <div class="tab-pane fade" id="menu-wintervegetables">
+            <div class="tab-header text-center">
+              <h3>冬季蔬菜類</h3>
+            </div>
+            <div class="row gy-5">
+              <?php
+              $query = "SELECT * FROM menu WHERE is_available = 0 and category='冬季蔬菜類' ORDER BY menu_ID";
+              $result = $conn->query($query);
+
+              if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                  echo '<div class="col-6 col-lg-4 menu-item">';
+                  // echo '<a href="assets/img/menu/menu-item-6.png" class="glightbox"><img src="assets/img/menu/menu-item-6.png" class="menu-img img-fluid" alt=""></a>';
+                  echo '<h4>' . htmlspecialchars($row['menu_name']) . '</h4>';
+                  // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
+                  echo '<p class="price">$' . number_format($row['price'], 2) . '</p>';
+                  echo '</div><!-- Menu Item -->';
+                }
+              } else {
+                echo '<div class="col-12 text-center"><p>目前沒有可用的菜單項目</p></div>';
+              }
+              ?>
+            </div>
+          </div><!-- End 冬季蔬菜類 Menu Content -->
+
+          <div class="tab-pane fade" id="menu-Mushrooms">
+            <div class="tab-header text-center">
+              <h3>香菇類</h3>
+            </div>
+            <div class="row gy-5">
+              <?php
+              $query = "SELECT * FROM menu WHERE is_available = 0 and category='香菇類' ORDER BY menu_ID";
+              $result = $conn->query($query);
+
+              if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                  echo '<div class="col-6 col-lg-4 menu-item">';
+                  // echo '<a href="assets/img/menu/menu-item-6.png" class="glightbox"><img src="assets/img/menu/menu-item-6.png" class="menu-img img-fluid" alt=""></a>';
+                  echo '<h4>' . htmlspecialchars($row['menu_name']) . '</h4>';
+                  // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
+                  echo '<p class="price">$' . number_format($row['price'], 2) . '</p>';
+                  echo '</div><!-- Menu Item -->';
+                }
+              } else {
+                echo '<div class="col-12 text-center"><p>目前沒有可用的菜單項目</p></div>';
+              }
+              ?>
+            </div>
+          </div><!-- End 香菇類 Menu Content -->
+
+          <div class="tab-pane fade" id="menu-Other">
+            <div class="tab-header text-center">
+              <h3>其他類</h3>
+            </div>
+            <div class="row gy-5">
+              <?php
+              $query = "SELECT * FROM menu WHERE is_available = 0 and category='其他類' ORDER BY menu_ID";
+              $result = $conn->query($query);
+
+              if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                  echo '<div class="col-6 col-lg-4 menu-item">';
+                  // echo '<a href="assets/img/menu/menu-item-6.png" class="glightbox"><img src="assets/img/menu/menu-item-6.png" class="menu-img img-fluid" alt=""></a>';
+                  echo '<h4>' . htmlspecialchars($row['menu_name']) . '</h4>';
+                  // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
+                  echo '<p class="price">$' . number_format($row['price'], 2) . '</p>';
+                  echo '</div><!-- Menu Item -->';
+                }
+              } else {
+                echo '<div class="col-12 text-center"><p>目前沒有可用的菜單項目</p></div>';
+              }
+              ?>
+            </div>
+          </div><!-- End 其他類 Menu Content -->
+
         </div>
-
       </div>
-
+      <?=
+      // 關閉資料庫連線
+      $conn->close();
+      ?>
     </section><!-- /Menu Section -->
 
     <!-- Testimonials Section -->
