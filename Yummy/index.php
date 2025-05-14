@@ -233,14 +233,14 @@
               // 包含資料庫連線檔案
               include("db_connection.php");
 
-              $query = "SELECT * FROM menu WHERE is_available = 0 and category='火鍋類' ORDER BY menu_ID";
+              $query = "SELECT * FROM menu_item WHERE is_ingredient= 0 and category='火鍋類' ORDER BY menu_ID";
               $result = $conn->query($query);
 
               if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                   echo '<div class="col-6 col-lg-4 menu-item">';
                   // echo '<a href="assets/img/menu/menu-item-6.png" class="glightbox"><img src="assets/img/menu/menu-item-6.png" class="menu-img img-fluid" alt=""></a>';
-                  echo '<h4>' . htmlspecialchars($row['menu_name']) . '</h4>';
+                  echo '<h4>' . htmlspecialchars($row['name']) . '</h4>';
                   // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
                   echo '<p class="price">$' . number_format($row['price'], 2) . '</p>';
                   echo '</div><!-- Menu Item -->';
@@ -258,14 +258,14 @@
             </div>
             <div class="row gy-5">
               <?php
-              $query = "SELECT * FROM menu WHERE is_available = 0 and category='火鍋料類' ORDER BY menu_ID";
+              $query = "SELECT * FROM menu_item WHERE is_ingredient= 0 and category='火鍋料類' ORDER BY menu_ID";
               $result = $conn->query($query);
 
               if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                   echo '<div class="col-6 col-lg-4 menu-item">';
                   // echo '<a href="assets/img/menu/menu-item-6.png" class="glightbox"><img src="assets/img/menu/menu-item-6.png" class="menu-img img-fluid" alt=""></a>';
-                  echo '<h4>' . htmlspecialchars($row['menu_name']) . '</h4>';
+                  echo '<h4>' . htmlspecialchars($row['name']) . '</h4>';
                   // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
                   echo '<p class="price">$' . number_format($row['price'], 2) . '</p>';
                   echo '</div><!-- Menu Item -->';
@@ -283,14 +283,14 @@
             </div>
             <div class="row gy-5">
               <?php
-              $query = "SELECT * FROM menu WHERE is_available = 0 and category='主食麵類' ORDER BY menu_ID";
+              $query = "SELECT * FROM menu_item WHERE is_ingredient= 0 and category='主食麵類' ORDER BY menu_ID";
               $result = $conn->query($query);
 
               if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                   echo '<div class="col-6 col-lg-4 menu-item">';
                   // echo '<a href="assets/img/menu/menu-item-6.png" class="glightbox"><img src="assets/img/menu/menu-item-6.png" class="menu-img img-fluid" alt=""></a>';
-                  echo '<h4>' . htmlspecialchars($row['menu_name']) . '</h4>';
+                  echo '<h4>' . htmlspecialchars($row['name']) . '</h4>';
                   // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
                   echo '<p class="price">$' . number_format($row['price'], 2) . '</p>';
                   echo '</div><!-- Menu Item -->';
@@ -308,14 +308,14 @@
             </div>
             <div class="row gy-5">
               <?php
-              $query = "SELECT * FROM menu WHERE is_available = 0 and category='上等肉類' ORDER BY menu_ID";
+              $query = "SELECT * FROM menu_item WHERE is_ingredient= 0 and category='上等肉類' ORDER BY menu_ID";
               $result = $conn->query($query);
 
               if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                   echo '<div class="col-6 col-lg-4 menu-item">';
                   // echo '<a href="assets/img/menu/menu-item-6.png" class="glightbox"><img src="assets/img/menu/menu-item-6.png" class="menu-img img-fluid" alt=""></a>';
-                  echo '<h4>' . htmlspecialchars($row['menu_name']) . '</h4>';
+                  echo '<h4>' . htmlspecialchars($row['name']) . '</h4>';
                   // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
                   echo '<p class="price">$' . number_format($row['price'], 2) . '</p>';
                   echo '</div><!-- Menu Item -->';
@@ -333,14 +333,14 @@
             </div>
             <div class="row gy-5">
               <?php
-              $query = "SELECT * FROM menu WHERE is_available = 0 and category='豆品類' ORDER BY menu_ID";
+              $query = "SELECT * FROM menu_item WHERE is_ingredient= 0 and category='豆品類' ORDER BY menu_ID";
               $result = $conn->query($query);
 
               if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                   echo '<div class="col-6 col-lg-4 menu-item">';
                   // echo '<a href="assets/img/menu/menu-item-6.png" class="glightbox"><img src="assets/img/menu/menu-item-6.png" class="menu-img img-fluid" alt=""></a>';
-                  echo '<h4>' . htmlspecialchars($row['menu_name']) . '</h4>';
+                  echo '<h4>' . htmlspecialchars($row['name']) . '</h4>';
                   // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
                   echo '<p class="price">$' . number_format($row['price'], 2) . '</p>';
                   echo '</div><!-- Menu Item -->';
@@ -358,14 +358,14 @@
             </div>
             <div class="row gy-5">
               <?php
-              $query = "SELECT * FROM menu WHERE is_available = 0 and category='冬季蔬菜類' ORDER BY menu_ID";
+              $query = "SELECT * FROM menu_item WHERE is_ingredient= 0 and category='冬季蔬菜類' ORDER BY menu_ID";
               $result = $conn->query($query);
 
               if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                   echo '<div class="col-6 col-lg-4 menu-item">';
                   // echo '<a href="assets/img/menu/menu-item-6.png" class="glightbox"><img src="assets/img/menu/menu-item-6.png" class="menu-img img-fluid" alt=""></a>';
-                  echo '<h4>' . htmlspecialchars($row['menu_name']) . '</h4>';
+                  echo '<h4>' . htmlspecialchars($row['name']) . '</h4>';
                   // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
                   echo '<p class="price">$' . number_format($row['price'], 2) . '</p>';
                   echo '</div><!-- Menu Item -->';
@@ -383,14 +383,14 @@
             </div>
             <div class="row gy-5">
               <?php
-              $query = "SELECT * FROM menu WHERE is_available = 0 and category='香菇類' ORDER BY menu_ID";
+              $query = "SELECT * FROM menu_item WHERE is_ingredient= 0 and category='香菇類' ORDER BY menu_ID";
               $result = $conn->query($query);
 
               if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                   echo '<div class="col-6 col-lg-4 menu-item">';
                   // echo '<a href="assets/img/menu/menu-item-6.png" class="glightbox"><img src="assets/img/menu/menu-item-6.png" class="menu-img img-fluid" alt=""></a>';
-                  echo '<h4>' . htmlspecialchars($row['menu_name']) . '</h4>';
+                  echo '<h4>' . htmlspecialchars($row['name']) . '</h4>';
                   // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
                   echo '<p class="price">$' . number_format($row['price'], 2) . '</p>';
                   echo '</div><!-- Menu Item -->';
@@ -408,14 +408,14 @@
             </div>
             <div class="row gy-5">
               <?php
-              $query = "SELECT * FROM menu WHERE is_available = 0 and category='其他類' ORDER BY menu_ID";
+              $query = "SELECT * FROM menu_item WHERE is_ingredient= 0 and category='其他類' ORDER BY menu_ID";
               $result = $conn->query($query);
 
               if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                   echo '<div class="col-6 col-lg-4 menu-item">';
                   // echo '<a href="assets/img/menu/menu-item-6.png" class="glightbox"><img src="assets/img/menu/menu-item-6.png" class="menu-img img-fluid" alt=""></a>';
-                  echo '<h4>' . htmlspecialchars($row['menu_name']) . '</h4>';
+                  echo '<h4>' . htmlspecialchars($row['name']) . '</h4>';
                   // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
                   echo '<p class="price">$' . number_format($row['price'], 2) . '</p>';
                   echo '</div><!-- Menu Item -->';
