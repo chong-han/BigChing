@@ -42,7 +42,7 @@
   <header id="header" class="header d-flex align-items-center sticky-top">
     <div class="container position-relative d-flex align-items-center justify-content-between">
 
-      <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+      <a href="index.php" class="logo d-flex align-items-center me-auto me-xl-0">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <img src="assets/img/Logo2.png" alt="">
         <h1 class="sitename">大慶滷味</h1>
@@ -80,7 +80,7 @@
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
 
-      <a class="btn-getstarted" href="index.html#book-a-table">Book a Table</a>
+      <a class="btn-getstarted" href="index.php#book-a-table">Book a Table</a>
 
     </div>
   </header>
@@ -164,7 +164,7 @@
 
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
-        <h2>Our Menu</h2>
+        <h2>菜單</h2>
         <p><span>Check Our</span> <span class="description-title">Yummy Menu</span></p>
       </div><!-- End Section Title -->
 
@@ -440,7 +440,7 @@
 
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
-        <h2>TESTIMONIALS</h2>
+        <h2>客戶評價</h2>
         <p>What Are They <span class="description-title">Saying About Us</span></p>
       </div><!-- End Section Title -->
 
