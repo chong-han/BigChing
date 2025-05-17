@@ -6,7 +6,7 @@
 * License: https://bootstrapmade.com/license/
 */
 
-(function() {
+(function () {
   "use strict";
 
   /**
@@ -50,7 +50,7 @@
    * Toggle mobile nav dropdowns
    */
   document.querySelectorAll('.navmenu .toggle-dropdown').forEach(navmenu => {
-    navmenu.addEventListener('click', function(e) {
+    navmenu.addEventListener('click', function (e) {
       e.preventDefault();
       this.parentNode.classList.toggle('active');
       this.parentNode.nextElementSibling.classList.toggle('dropdown-active');
@@ -118,7 +118,7 @@
    * Init swiper sliders
    */
   function initSwiper() {
-    document.querySelectorAll(".init-swiper").forEach(function(swiperElement) {
+    document.querySelectorAll(".init-swiper").forEach(function (swiperElement) {
       let config = JSON.parse(
         swiperElement.querySelector(".swiper-config").innerHTML.trim()
       );
@@ -136,7 +136,7 @@
   /**
    * Correct scrolling position upon page load for URLs containing hash links.
    */
-  window.addEventListener('load', function(e) {
+  window.addEventListener('load', function (e) {
     if (window.location.hash) {
       if (document.querySelector(window.location.hash)) {
         setTimeout(() => {
@@ -174,3 +174,104 @@
   document.addEventListener('scroll', navmenuScrollspy);
 
 })();
+
+const cartBtn = document.getElementById("cart-btn");
+const cartModal = document.getElementById("cart-modal");
+const closeCart = document.getElementById("close-cart");
+const cartTableBody = document.querySelector("#cart-table tbody");
+const cartTotal = document.getElementById("cart-total");
+const checkoutBtn = document.getElementById("checkout-btn");
+const cartCount = document.getElementById("cart-count");
+
+let cart = JSON.parse(localStorage.getItem("cart")) || {};
+let isCartVisible = false;
+
+function updateCartStorage() {
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+function renderCart() {
+  cartTableBody.innerHTML = "";
+  let total = 0;
+  const items = Object.values(cart);
+
+  if (items.length === 0) {
+    cartTableBody.innerHTML = `
+      <tr>
+        <td colspan="5"><div class="cart-empty-message">購物車目前是空的</div></td>
+      </tr>`;
+  } else {
+    items.forEach(item => {
+      const subtotal = item.price * item.qty;
+      total += subtotal;
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td data-label="品項">${item.name}</td>
+        <td data-label="單價">$${item.price.toFixed(2)}</td>
+        <td data-label="數量">
+          <button class="btn qty-btn" data-action="decrease" data-name="${item.name}">-</button>
+          <span class="mx-1">${item.qty}</span>
+          <button class="btn qty-btn" data-action="increase" data-name="${item.name}">+</button>
+        </td>
+        <td data-label="小計">$${subtotal.toFixed(2)}</td>
+        <td><button class="btn btn-sm btn-danger" data-action="remove" data-name="${item.name}">刪除</button></td>
+      `;
+      cartTableBody.appendChild(row);
+    });
+  }
+
+  cartTotal.textContent = `$${total.toFixed(2)}`;
+  cartCount.textContent = items.reduce((sum, item) => sum + item.qty, 0);
+  updateCartStorage();
+}
+
+function toggleCartModal() {
+  isCartVisible = !isCartVisible;
+  if (isCartVisible) {
+    cartModal.classList.add("show");
+    renderCart();
+  } else {
+    cartModal.classList.remove("show");
+  }
+}
+
+cartBtn.addEventListener("click", toggleCartModal);
+closeCart.addEventListener("click", () => {
+  isCartVisible = false;
+  cartModal.classList.remove("show");
+});
+
+document.body.addEventListener("click", (e) => {
+  const name = e.target.dataset.name;
+  if (e.target.dataset.action === "increase") {
+    cart[name].qty++;
+  } else if (e.target.dataset.action === "decrease") {
+    cart[name].qty = Math.max(1, cart[name].qty - 1);
+  } else if (e.target.dataset.action === "remove") {
+    delete cart[name];
+  }
+  renderCart();
+});
+
+document.querySelectorAll("button[data-name]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const name = btn.dataset.name;
+    const price = parseFloat(btn.dataset.price);
+    if (cart[name]) {
+      cart[name].qty++;
+    } else {
+      cart[name] = { name, price, qty: 1 };
+    }
+    renderCart();
+  });
+});
+
+checkoutBtn.addEventListener("click", () => {
+  alert("結帳成功！");
+  cart = {};
+  renderCart();
+  cartModal.classList.remove("show");
+  isCartVisible = false;
+});
+
+renderCart();

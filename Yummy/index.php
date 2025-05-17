@@ -24,6 +24,7 @@
   <link href="assets/vendor/aos/aos.css" rel="stylesheet">
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
@@ -57,8 +58,37 @@
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
-
-      <a class="btn-getstarted" href="index.php#book-a-table">購物車</a>
+      <!-- 購物車按鈕 -->
+      <a class="btn btn-getstarted p-2 px-md-4 pb-1" id="cart-btn" title="購物車">
+        <i class='bx-fw bx bxs-cart bx-sm'></i>
+        <span id="cart-count" class="cart-count">0</span>
+      </a>
+      <!-- 購物車互動視窗 -->
+      <div id="cart-modal" class="cart-modal">
+        <div class="cart-modal-content">
+          <span id="close-cart" class="close">&times;</span>
+          <h4 class="mb-3">購物車清單</h4>
+          <div class="table-responsive">
+            <table class="table table-bordered table-sm align-middle text-center" id="cart-table">
+              <thead class="table-light">
+                <tr>
+                  <th>品項</th>
+                  <th>單價</th>
+                  <th>數量</th>
+                  <th>小計</th>
+                  <th> </th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+          <div class="text-end mt-3">
+            <strong>總金額：</strong><span id="cart-total" class="text-danger fw-bold">$0.00</span>
+          </div>
+          <button id="checkout-btn" class="btn btn-success mt-3 w-100">結帳</button>
+        </div>
+      </div>
 
     </div>
   </header>
@@ -221,6 +251,7 @@
                   echo '<h4>' . htmlspecialchars($row['name']) . '</h4>';
                   // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
                   echo '<p class="price">$' . number_format($row['price'], 2) . '</p>';
+                  echo '<button class="btn btn-outline-danger col-lg-6" data-name="' . htmlspecialchars($row['name']) . '" data-price="' . $row['price'] . '">加入購物車</button>';
                   echo '</div><!-- Menu Item -->';
                 }
               } else {
@@ -246,6 +277,7 @@
                   echo '<h4>' . htmlspecialchars($row['name']) . '</h4>';
                   // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
                   echo '<p class="price">$' . number_format($row['price'], 2) . '</p>';
+                  echo '<button class="btn btn-outline-danger col-lg-6" data-name="' . htmlspecialchars($row['name']) . '" data-price="' . $row['price'] . '">加入購物車</button>';
                   echo '</div><!-- Menu Item -->';
                 }
               } else {
@@ -271,6 +303,7 @@
                   echo '<h4>' . htmlspecialchars($row['name']) . '</h4>';
                   // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
                   echo '<p class="price">$' . number_format($row['price'], 2) . '</p>';
+                  echo '<button class="btn btn-outline-danger col-lg-6" data-name="' . htmlspecialchars($row['name']) . '" data-price="' . $row['price'] . '">加入購物車</button>';
                   echo '</div><!-- Menu Item -->';
                 }
               } else {
@@ -296,6 +329,7 @@
                   echo '<h4>' . htmlspecialchars($row['name']) . '</h4>';
                   // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
                   echo '<p class="price">$' . number_format($row['price'], 2) . '</p>';
+                  echo '<button class="btn btn-outline-danger col-lg-6" data-name="' . htmlspecialchars($row['name']) . '" data-price="' . $row['price'] . '">加入購物車</button>';
                   echo '</div><!-- Menu Item -->';
                 }
               } else {
@@ -321,6 +355,7 @@
                   echo '<h4>' . htmlspecialchars($row['name']) . '</h4>';
                   // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
                   echo '<p class="price">$' . number_format($row['price'], 2) . '</p>';
+                  echo '<button class="btn btn-outline-danger col-lg-6" data-name="' . htmlspecialchars($row['name']) . '" data-price="' . $row['price'] . '">加入購物車</button>';
                   echo '</div><!-- Menu Item -->';
                 }
               } else {
@@ -346,6 +381,7 @@
                   echo '<h4>' . htmlspecialchars($row['name']) . '</h4>';
                   // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
                   echo '<p class="price">$' . number_format($row['price'], 2) . '</p>';
+                  echo '<button class="btn btn-outline-danger col-lg-6" data-name="' . htmlspecialchars($row['name']) . '" data-price="' . $row['price'] . '">加入購物車</button>';
                   echo '</div><!-- Menu Item -->';
                 }
               } else {
@@ -371,6 +407,7 @@
                   echo '<h4>' . htmlspecialchars($row['name']) . '</h4>';
                   // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
                   echo '<p class="price">$' . number_format($row['price'], 2) . '</p>';
+                  echo '<button class="btn btn-outline-danger col-lg-6" data-name="' . htmlspecialchars($row['name']) . '" data-price="' . $row['price'] . '">加入購物車</button>';
                   echo '</div><!-- Menu Item -->';
                 }
               } else {
@@ -396,6 +433,7 @@
                   echo '<h4>' . htmlspecialchars($row['name']) . '</h4>';
                   // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
                   echo '<p class="price">$' . number_format($row['price'], 2) . '</p>';
+                  echo '<button class="btn btn-outline-danger col-lg-6" data-name="' . htmlspecialchars($row['name']) . '" data-price="' . $row['price'] . '">加入購物車</button>';
                   echo '</div><!-- Menu Item -->';
                 }
               } else {
