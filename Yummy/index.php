@@ -86,7 +86,7 @@
           <div class="text-end mt-3">
             <strong>總金額：</strong><span id="cart-total" class="text-danger fw-bold">$0.00</span>
           </div>
-          <button id="checkout-btn" class="btn btn-success mt-3 w-100">結帳</button>
+          <button id="checkout-btn" class="btn btn-success mt-3 col-12 ">結帳</button>
         </div>
       </div>
 
