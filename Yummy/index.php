@@ -241,22 +241,51 @@
               // 包含資料庫連線檔案
               include("db_connection.php");
 
-              $query = "SELECT * FROM menu_item WHERE is_ingredient= 0 and category='火鍋類' ORDER BY menu_ID";
+              $query = "SELECT * FROM menu WHERE is_available = 1 AND category = '火鍋類' ORDER BY Menu_ID";
               $result = $conn->query($query);
 
               if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
+                  $menu_name = htmlspecialchars($row['Menu_name']);
+                  $menu_price = number_format($row['sell_price'], 2);
+                  $product_id = $row['Product_ID'];
+
+                  // 查詢這個產品對應的食材名稱
+                  $ingredient_query = "
+                    SELECT DISTINCT i.Ingredient_name
+                    FROM product p
+                    JOIN hotpot h ON p.HotPot_ID = h.HotPot_ID
+                    JOIN ingredient i ON h.Ingredient_ID = i.Ingredient_ID
+                    WHERE p.Product_ID = $product_id
+                  ";
+                  $ingredient_result = $conn->query($ingredient_query);
+
+                  $ingredient_list = [];
+                  if ($ingredient_result->num_rows > 0) {
+                    while ($ing = $ingredient_result->fetch_assoc()) {
+                      $ingredient_list[] = $ing['Ingredient_name'];
+                    }
+                  }
+
+                  // 將食材用逗號分隔列出
+                  $ingredient_string = htmlspecialchars(implode(', ', $ingredient_list));
+
                   echo '<div class="col-6 col-lg-4 menu-item">';
-                  // echo '<a href="assets/img/menu/menu-item-6.png" class="glightbox"><img src="assets/img/menu/menu-item-6.png" class="menu-img img-fluid" alt=""></a>';
-                  echo '<h4>' . htmlspecialchars($row['name']) . '</h4>';
-                  // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
-                  echo '<p class="price">$' . number_format($row['price'], 2) . '</p>';
-                  echo '<button class="btn btn-outline-danger col-lg-6" data-name="' . htmlspecialchars($row['name']) . '" data-price="' . $row['price'] . '">加入購物車</button>';
+                  if ($menu_name == "麻辣鴨血臭臭鍋") {
+                    echo '<a href="./assets/img/火鍋類/麻辣鴨血臭臭鍋.jpg" class="glightbox"><img src="./assets/img/火鍋類/麻辣鴨血臭臭鍋.jpg" class="menu-img img-fluid" alt=""></a>';
+                  } else {
+                    echo '<a href="./assets/img/暫無圖片.png" class="glightbox"><img src="./assets/img/暫無圖片.png" class="menu-img img-fluid" alt=""></a>';
+                  }
+                  echo '<h4>' . $menu_name . '</h4>';
+                  echo '<p class="ingredients">' . $ingredient_string . '</p>';
+                  echo '<p class="price">$' . $menu_price . '</p>';
+                  echo '<button class="btn btn-outline-danger col-lg-6" data-name="' . $menu_name . '" data-price="' . $row['sell_price'] . '">加入購物車</button>';
                   echo '</div><!-- Menu Item -->';
                 }
               } else {
                 echo '<div class="col-12 text-center"><p>目前沒有可用的菜單項目</p></div>';
               }
+
               ?>
             </div>
           </div><!-- End 火鍋類 Menu Content -->
@@ -267,17 +296,22 @@
             </div>
             <div class="row gy-5">
               <?php
-              $query = "SELECT * FROM menu_item WHERE is_ingredient= 0 and category='火鍋料類' ORDER BY menu_ID";
+              $query = "SELECT * FROM menu WHERE is_available= 1 and category='火鍋料類' ORDER BY Menu_ID";
               $result = $conn->query($query);
 
               if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                   echo '<div class="col-6 col-lg-4 menu-item">';
-                  // echo '<a href="assets/img/menu/menu-item-6.png" class="glightbox"><img src="assets/img/menu/menu-item-6.png" class="menu-img img-fluid" alt=""></a>';
-                  echo '<h4>' . htmlspecialchars($row['name']) . '</h4>';
+                  $imagePath = './assets/img/火鍋料類/' . $row['Menu_name'] . '.jpg';
+                  if (file_exists($imagePath)) {
+                    echo '<a href="' . $imagePath . '" class="glightbox"><img src="' . $imagePath . '" class="menu-img img-fluid" alt=""></a>';
+                  } else {
+                    echo '<a href="./assets/img/暫無圖片.png" class="glightbox"><img src="./assets/img/暫無圖片.png" class="menu-img img-fluid" alt=""></a>';
+                  }
+                  echo '<h4>' . htmlspecialchars($row['Menu_name']) . '</h4>';
                   // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
-                  echo '<p class="price">$' . number_format($row['price'], 2) . '</p>';
-                  echo '<button class="btn btn-outline-danger col-lg-6" data-name="' . htmlspecialchars($row['name']) . '" data-price="' . $row['price'] . '">加入購物車</button>';
+                  echo '<p class="price">$' . number_format($row['sell_price'], 2) . '</p>';
+                  echo '<button class="btn btn-outline-danger col-lg-6" data-name="' . htmlspecialchars($row['Menu_name']) . '" data-price="' . $row['sell_price'] . '">加入購物車</button>';
                   echo '</div><!-- Menu Item -->';
                 }
               } else {
@@ -293,17 +327,22 @@
             </div>
             <div class="row gy-5">
               <?php
-              $query = "SELECT * FROM menu_item WHERE is_ingredient= 0 and category='主食麵類' ORDER BY menu_ID";
+              $query = "SELECT * FROM menu WHERE is_available= 1 and category='主食麵類' ORDER BY Menu_ID";
               $result = $conn->query($query);
 
               if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                   echo '<div class="col-6 col-lg-4 menu-item">';
-                  // echo '<a href="assets/img/menu/menu-item-6.png" class="glightbox"><img src="assets/img/menu/menu-item-6.png" class="menu-img img-fluid" alt=""></a>';
-                  echo '<h4>' . htmlspecialchars($row['name']) . '</h4>';
+                  $imagePath = './assets/img/主食麵類/' . $row['Menu_name'] . '.jpg';
+                  if (file_exists($imagePath)) {
+                    echo '<a href="' . $imagePath . '" class="glightbox"><img src="' . $imagePath . '" class="menu-img img-fluid" alt=""></a>';
+                  } else {
+                    echo '<a href="./assets/img/暫無圖片.png" class="glightbox"><img src="./assets/img/暫無圖片.png" class="menu-img img-fluid" alt=""></a>';
+                  }
+                  echo '<h4>' . htmlspecialchars($row['Menu_name']) . '</h4>';
                   // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
-                  echo '<p class="price">$' . number_format($row['price'], 2) . '</p>';
-                  echo '<button class="btn btn-outline-danger col-lg-6" data-name="' . htmlspecialchars($row['name']) . '" data-price="' . $row['price'] . '">加入購物車</button>';
+                  echo '<p class="price">$' . number_format($row['sell_price'], 2) . '</p>';
+                  echo '<button class="btn btn-outline-danger col-lg-6" data-name="' . htmlspecialchars($row['Menu_name']) . '" data-price="' . $row['sell_price'] . '">加入購物車</button>';
                   echo '</div><!-- Menu Item -->';
                 }
               } else {
@@ -319,17 +358,22 @@
             </div>
             <div class="row gy-5">
               <?php
-              $query = "SELECT * FROM menu_item WHERE is_ingredient= 0 and category='上等肉類' ORDER BY menu_ID";
+              $query = "SELECT * FROM menu WHERE is_available= 1 and category='上等肉類' ORDER BY Menu_ID";
               $result = $conn->query($query);
 
               if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                   echo '<div class="col-6 col-lg-4 menu-item">';
-                  // echo '<a href="assets/img/menu/menu-item-6.png" class="glightbox"><img src="assets/img/menu/menu-item-6.png" class="menu-img img-fluid" alt=""></a>';
-                  echo '<h4>' . htmlspecialchars($row['name']) . '</h4>';
+                  $imagePath = './assets/img/上等肉類/' . $row['Menu_name'] . '.jpg';
+                  if (file_exists($imagePath)) {
+                    echo '<a href="' . $imagePath . '" class="glightbox"><img src="' . $imagePath . '" class="menu-img img-fluid" alt=""></a>';
+                  } else {
+                    echo '<a href="./assets/img/暫無圖片.png" class="glightbox"><img src="./assets/img/暫無圖片.png" class="menu-img img-fluid" alt=""></a>';
+                  }
+                  echo '<h4>' . htmlspecialchars($row['Menu_name']) . '</h4>';
                   // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
-                  echo '<p class="price">$' . number_format($row['price'], 2) . '</p>';
-                  echo '<button class="btn btn-outline-danger col-lg-6" data-name="' . htmlspecialchars($row['name']) . '" data-price="' . $row['price'] . '">加入購物車</button>';
+                  echo '<p class="price">$' . number_format($row['sell_price'], 2) . '</p>';
+                  echo '<button class="btn btn-outline-danger col-lg-6" data-name="' . htmlspecialchars($row['Menu_name']) . '" data-price="' . $row['sell_price'] . '">加入購物車</button>';
                   echo '</div><!-- Menu Item -->';
                 }
               } else {
@@ -345,17 +389,22 @@
             </div>
             <div class="row gy-5">
               <?php
-              $query = "SELECT * FROM menu_item WHERE is_ingredient= 0 and category='豆品類' ORDER BY menu_ID";
+              $query = "SELECT * FROM menu WHERE is_available= 1 and category='豆品類' ORDER BY Menu_ID";
               $result = $conn->query($query);
 
               if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                   echo '<div class="col-6 col-lg-4 menu-item">';
-                  // echo '<a href="assets/img/menu/menu-item-6.png" class="glightbox"><img src="assets/img/menu/menu-item-6.png" class="menu-img img-fluid" alt=""></a>';
-                  echo '<h4>' . htmlspecialchars($row['name']) . '</h4>';
+                  $imagePath = './assets/img/豆品類/' . $row['Menu_name'] . '.jpg';
+                  if (file_exists($imagePath)) {
+                    echo '<a href="' . $imagePath . '" class="glightbox"><img src="' . $imagePath . '" class="menu-img img-fluid" alt=""></a>';
+                  } else {
+                    echo '<a href="./assets/img/暫無圖片.png" class="glightbox"><img src="./assets/img/暫無圖片.png" class="menu-img img-fluid" alt=""></a>';
+                  }
+                  echo '<h4>' . htmlspecialchars($row['Menu_name']) . '</h4>';
                   // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
-                  echo '<p class="price">$' . number_format($row['price'], 2) . '</p>';
-                  echo '<button class="btn btn-outline-danger col-lg-6" data-name="' . htmlspecialchars($row['name']) . '" data-price="' . $row['price'] . '">加入購物車</button>';
+                  echo '<p class="price">$' . number_format($row['sell_price'], 2) . '</p>';
+                  echo '<button class="btn btn-outline-danger col-lg-6" data-name="' . htmlspecialchars($row['Menu_name']) . '" data-price="' . $row['sell_price'] . '">加入購物車</button>';
                   echo '</div><!-- Menu Item -->';
                 }
               } else {
@@ -371,17 +420,22 @@
             </div>
             <div class="row gy-5">
               <?php
-              $query = "SELECT * FROM menu_item WHERE is_ingredient= 0 and category='冬季蔬菜類' ORDER BY menu_ID";
+              $query = "SELECT * FROM menu WHERE is_available= 1 and category='冬季蔬菜類' ORDER BY Menu_ID";
               $result = $conn->query($query);
 
               if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                   echo '<div class="col-6 col-lg-4 menu-item">';
-                  // echo '<a href="assets/img/menu/menu-item-6.png" class="glightbox"><img src="assets/img/menu/menu-item-6.png" class="menu-img img-fluid" alt=""></a>';
-                  echo '<h4>' . htmlspecialchars($row['name']) . '</h4>';
+                  $imagePath = './assets/img/冬季蔬菜類/' . $row['Menu_name'] . '.jpg';
+                  if (file_exists($imagePath)) {
+                    echo '<a href="' . $imagePath . '" class="glightbox"><img src="' . $imagePath . '" class="menu-img img-fluid" alt=""></a>';
+                  } else {
+                    echo '<a href="./assets/img/暫無圖片.png" class="glightbox"><img src="./assets/img/暫無圖片.png" class="menu-img img-fluid" alt=""></a>';
+                  }
+                  echo '<h4>' . htmlspecialchars($row['Menu_name']) . '</h4>';
                   // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
-                  echo '<p class="price">$' . number_format($row['price'], 2) . '</p>';
-                  echo '<button class="btn btn-outline-danger col-lg-6" data-name="' . htmlspecialchars($row['name']) . '" data-price="' . $row['price'] . '">加入購物車</button>';
+                  echo '<p class="price">$' . number_format($row['sell_price'], 2) . '</p>';
+                  echo '<button class="btn btn-outline-danger col-lg-6" data-name="' . htmlspecialchars($row['Menu_name']) . '" data-price="' . $row['sell_price'] . '">加入購物車</button>';
                   echo '</div><!-- Menu Item -->';
                 }
               } else {
@@ -397,17 +451,22 @@
             </div>
             <div class="row gy-5">
               <?php
-              $query = "SELECT * FROM menu_item WHERE is_ingredient= 0 and category='香菇類' ORDER BY menu_ID";
+              $query = "SELECT * FROM menu WHERE is_available= 1 and category='香菇類' ORDER BY Menu_ID";
               $result = $conn->query($query);
 
               if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                   echo '<div class="col-6 col-lg-4 menu-item">';
-                  // echo '<a href="assets/img/menu/menu-item-6.png" class="glightbox"><img src="assets/img/menu/menu-item-6.png" class="menu-img img-fluid" alt=""></a>';
-                  echo '<h4>' . htmlspecialchars($row['name']) . '</h4>';
+                  $imagePath = './assets/img/香菇類/' . $row['Menu_name'] . '.jpg';
+                  if (file_exists($imagePath)) {
+                    echo '<a href="' . $imagePath . '" class="glightbox"><img src="' . $imagePath . '" class="menu-img img-fluid" alt=""></a>';
+                  } else {
+                    echo '<a href="./assets/img/暫無圖片.png" class="glightbox"><img src="./assets/img/暫無圖片.png" class="menu-img img-fluid" alt=""></a>';
+                  }
+                  echo '<h4>' . htmlspecialchars($row['Menu_name']) . '</h4>';
                   // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
-                  echo '<p class="price">$' . number_format($row['price'], 2) . '</p>';
-                  echo '<button class="btn btn-outline-danger col-lg-6" data-name="' . htmlspecialchars($row['name']) . '" data-price="' . $row['price'] . '">加入購物車</button>';
+                  echo '<p class="price">$' . number_format($row['sell_price'], 2) . '</p>';
+                  echo '<button class="btn btn-outline-danger col-lg-6" data-name="' . htmlspecialchars($row['Menu_name']) . '" data-price="' . $row['sell_price'] . '">加入購物車</button>';
                   echo '</div><!-- Menu Item -->';
                 }
               } else {
@@ -423,17 +482,22 @@
             </div>
             <div class="row gy-5">
               <?php
-              $query = "SELECT * FROM menu_item WHERE is_ingredient= 0 and category='其他類' ORDER BY menu_ID";
+              $query = "SELECT * FROM menu WHERE is_available= 1 and category='其他類' ORDER BY Menu_ID";
               $result = $conn->query($query);
 
               if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                   echo '<div class="col-6 col-lg-4 menu-item">';
-                  // echo '<a href="assets/img/menu/menu-item-6.png" class="glightbox"><img src="assets/img/menu/menu-item-6.png" class="menu-img img-fluid" alt=""></a>';
-                  echo '<h4>' . htmlspecialchars($row['name']) . '</h4>';
+                  $imagePath = './assets/img/其他類/' . $row['Menu_name'] . '.jpg';
+                  if (file_exists($imagePath)) {
+                    echo '<a href="' . $imagePath . '" class="glightbox"><img src="' . $imagePath . '" class="menu-img img-fluid" alt=""></a>';
+                  } else {
+                    echo '<a href="./assets/img/暫無圖片.png" class="glightbox"><img src="./assets/img/暫無圖片.png" class="menu-img img-fluid" alt=""></a>';
+                  }
+                  echo '<h4>' . htmlspecialchars($row['Menu_name']) . '</h4>';
                   // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
-                  echo '<p class="price">$' . number_format($row['price'], 2) . '</p>';
-                  echo '<button class="btn btn-outline-danger col-lg-6" data-name="' . htmlspecialchars($row['name']) . '" data-price="' . $row['price'] . '">加入購物車</button>';
+                  echo '<p class="price">$' . number_format($row['sell_price'], 2) . '</p>';
+                  echo '<button class="btn btn-outline-danger col-lg-6" data-name="' . htmlspecialchars($row['Menu_name']) . '" data-price="' . $row['sell_price'] . '">加入購物車</button>';
                   echo '</div><!-- Menu Item -->';
                 }
               } else {
