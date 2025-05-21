@@ -175,6 +175,7 @@
 
 })();
 
+// 取得 DOM 元素
 const cartBtn = document.getElementById("cart-btn");
 const cartModal = document.getElementById("cart-modal");
 const closeCart = document.getElementById("close-cart");
@@ -183,36 +184,31 @@ const cartTotal = document.getElementById("cart-total");
 const checkoutBtn = document.getElementById("checkout-btn");
 const cartCount = document.getElementById("cart-count");
 
+// 從 localStorage 讀取購物車資料，若無則初始化空物件
 let cart = JSON.parse(localStorage.getItem("cart")) || {};
 let isCartVisible = false;
 
+// 更新 localStorage
 function updateCartStorage() {
   localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-let cartq = 0;
-document.querySelectorAll('[data-name][data-price]').forEach(button => {
-  button.addEventListener('click', function () {
-    cartq++;
-    const countElement = document.getElementById('cart-count');
-    countElement.textContent = cartq;
+// 顯示成功提示動畫
+function showSuccessToast() {
+  const toastEl = document.getElementById('successToast');
+  toastEl.classList.add('show');
+  setTimeout(() => toastEl.classList.remove('show'), 1500);
+}
 
-    // 加上動畫 class
-    countElement.classList.add('cart-slide');
-    countElement.addEventListener('animationend', () => {
-      countElement.classList.remove('cart-slide');
-    }, { once: true });
+// 更新購物車數量動畫
+function animateCartCount() {
+  cartCount.classList.add('cart-slide');
+  cartCount.addEventListener('animationend', () => {
+    cartCount.classList.remove('cart-slide');
+  }, { once: true });
+}
 
-
-    // 動畫播放完移除 class
-    countElement.addEventListener('animationend', () => {
-      countElement.classList.remove('cart-bounce');
-    }, { once: true });
-
-    // 這裡也可以把商品資訊存入 localStorage
-  });
-});
-
+// 將購物車內容渲染到畫面
 function renderCart() {
   cartTableBody.innerHTML = "";
   let total = 0;
@@ -223,11 +219,9 @@ function renderCart() {
       <tr>
         <td colspan="5"><div class="cart-empty-message">購物車目前是空的</div></td>
       </tr>`;
-    checkoutBtn.style.display = 'none'; // 隱藏按鈕
-
+    checkoutBtn.style.display = 'none';
   } else {
-    checkoutBtn.style.display = 'block'; // 顯示按鈕
-
+    checkoutBtn.style.display = 'block';
     items.forEach(item => {
       const subtotal = item.price * item.qty;
       total += subtotal;
@@ -252,47 +246,77 @@ function renderCart() {
   updateCartStorage();
 }
 
+// 切換購物車視窗顯示
 function toggleCartModal() {
   isCartVisible = !isCartVisible;
   if (isCartVisible) {
     cartModal.classList.add("show");
-    renderCart();
+    renderCart();  // 你原本的渲染購物車函式
   } else {
     cartModal.classList.remove("show");
   }
 }
 
-cartBtn.addEventListener("click", toggleCartModal);
+// 點擊購物車按鈕，切換購物車視窗並阻止事件冒泡（避免點擊 document 觸發關閉）
+cartBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  toggleCartModal();
+});
+
+// 點擊購物車關閉按鈕，直接關閉購物車
 closeCart.addEventListener("click", () => {
   isCartVisible = false;
   cartModal.classList.remove("show");
 });
 
-document.body.addEventListener("click", (e) => {
-  const name = e.target.dataset.name;
-  if (e.target.dataset.action === "increase") {
-    cart[name].qty++;
-  } else if (e.target.dataset.action === "decrease") {
-    cart[name].qty = Math.max(1, cart[name].qty - 1);
-  } else if (e.target.dataset.action === "remove") {
-    delete cart[name];
-  }
-  renderCart();
+// 點擊購物車視窗本體時阻止事件冒泡（避免點擊視窗內部也關閉）
+cartModal.addEventListener("click", (e) => {
+  e.stopPropagation();
 });
 
-document.querySelectorAll("button[data-name]").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const name = btn.dataset.name;
-    const price = parseFloat(btn.dataset.price);
+// 點擊頁面其他區域時關閉購物車視窗
+document.addEventListener("click", () => {
+  if (isCartVisible) {
+    isCartVisible = false;
+    cartModal.classList.remove("show");
+  }
+});
+
+// 商品按鈕：加入購物車
+document.querySelectorAll('[data-name][data-price]').forEach(button => {
+  button.addEventListener('click', () => {
+    const name = button.dataset.name;
+    const price = parseFloat(button.dataset.price);
+
     if (cart[name]) {
       cart[name].qty++;
     } else {
       cart[name] = { name, price, qty: 1 };
     }
+    cartCount.textContent = Object.values(cart).reduce((sum, item) => sum + item.qty, 0);
+    animateCartCount();
     renderCart();
+    showSuccessToast();
   });
 });
 
+// 監聽購物車內的加減及刪除按鈕（事件代理）
+cartTableBody.addEventListener("click", (e) => {
+  const action = e.target.dataset.action;
+  const name = e.target.dataset.name;
+  if (!action || !name) return;
+
+  if (action === "increase") {
+    cart[name].qty++;
+  } else if (action === "decrease") {
+    cart[name].qty = Math.max(1, cart[name].qty - 1);
+  } else if (action === "remove") {
+    delete cart[name];
+  }
+  renderCart();
+});
+
+// 結帳按鈕
 checkoutBtn.addEventListener("click", () => {
   alert("結帳成功！");
   cart = {};
@@ -301,15 +325,7 @@ checkoutBtn.addEventListener("click", () => {
   isCartVisible = false;
 });
 
+// 初始化渲染購物車
 renderCart();
 
-function updateCheckoutButton() {
-  const items = JSON.parse(localStorage.getItem('cartItems')) || [];
-  const checkoutBtn = document.getElementById('checkout-btn');
-
-  checkoutBtn.style.display = items.length === 0 ? 'none' : 'block';
-}
-
-// 初始執行一次
-updateCheckoutButton();
 

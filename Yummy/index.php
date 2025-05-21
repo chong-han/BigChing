@@ -59,7 +59,7 @@
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
       <!-- 購物車按鈕 -->
-      <a class="btn btn-getstarted p-2 px-md-4 pb-1" id="cart-btn" title="購物車">
+      <a class="btn btn-getstarted add-cart p-2 px-md-4 pb-1" id="cart-btn" title="購物車">
         <i class='bx-fw bx bxs-cart bx-sm'></i>
         <span id="cart-count" class="cart-count">0</span>
       </a>
@@ -89,6 +89,18 @@
           <button id="checkout-btn" class="btn btn-success mt-3 col-12 ">結帳</button>
         </div>
       </div>
+      <!-- 提示窗 -->
+      <div id="successToast"
+        class="toast align-items-center border-0 position-fixed start-50 translate-middle-x m-3 shadow"
+        style="top: 10vh;"
+        role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+          <div class="toast-body">
+            ✅ 已加入購物車！
+          </div>
+        </div>
+      </div>
+
 
     </div>
   </header>
@@ -279,7 +291,7 @@
                   echo '<h4>' . $menu_name . '</h4>';
                   echo '<p class="ingredients">' . $ingredient_string . '</p>';
                   echo '<p class="price">$' . $menu_price . '</p>';
-                  echo '<button class="btn btn-outline-danger col-lg-6" data-name="' . $menu_name . '" data-price="' . $row['sell_price'] . '">加入購物車</button>';
+                  echo '<button class="btn btn-outline-danger col-lg-6" onclick="showSuccessToast()" data-name="' . $menu_name . '" data-price="' . $row['sell_price'] . '">加入購物車</button>';
                   echo '</div><!-- Menu Item -->';
                 }
               } else {
@@ -311,7 +323,7 @@
                   echo '<h4>' . htmlspecialchars($row['Menu_name']) . '</h4>';
                   // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
                   echo '<p class="price">$' . number_format($row['sell_price'], 2) . '</p>';
-                  echo '<button class="btn btn-outline-danger col-lg-6" data-name="' . htmlspecialchars($row['Menu_name']) . '" data-price="' . $row['sell_price'] . '">加入購物車</button>';
+                  echo '<button class="btn btn-outline-danger col-lg-6" onclick="showSuccessToast()" data-name="' . htmlspecialchars($row['Menu_name']) . '" data-price="' . $row['sell_price'] . '">加入購物車</button>';
                   echo '</div><!-- Menu Item -->';
                 }
               } else {
@@ -342,7 +354,7 @@
                   echo '<h4>' . htmlspecialchars($row['Menu_name']) . '</h4>';
                   // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
                   echo '<p class="price">$' . number_format($row['sell_price'], 2) . '</p>';
-                  echo '<button class="btn btn-outline-danger col-lg-6" data-name="' . htmlspecialchars($row['Menu_name']) . '" data-price="' . $row['sell_price'] . '">加入購物車</button>';
+                  echo '<button class="btn btn-outline-danger col-lg-6" onclick="showSuccessToast()" data-name="' . htmlspecialchars($row['Menu_name']) . '" data-price="' . $row['sell_price'] . '">加入購物車</button>';
                   echo '</div><!-- Menu Item -->';
                 }
               } else {
@@ -373,7 +385,7 @@
                   echo '<h4>' . htmlspecialchars($row['Menu_name']) . '</h4>';
                   // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
                   echo '<p class="price">$' . number_format($row['sell_price'], 2) . '</p>';
-                  echo '<button class="btn btn-outline-danger col-lg-6" data-name="' . htmlspecialchars($row['Menu_name']) . '" data-price="' . $row['sell_price'] . '">加入購物車</button>';
+                  echo '<button class="btn btn-outline-danger col-lg-6" onclick="showSuccessToast()" data-name="' . htmlspecialchars($row['Menu_name']) . '" data-price="' . $row['sell_price'] . '">加入購物車</button>';
                   echo '</div><!-- Menu Item -->';
                 }
               } else {
@@ -404,7 +416,7 @@
                   echo '<h4>' . htmlspecialchars($row['Menu_name']) . '</h4>';
                   // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
                   echo '<p class="price">$' . number_format($row['sell_price'], 2) . '</p>';
-                  echo '<button class="btn btn-outline-danger col-lg-6" data-name="' . htmlspecialchars($row['Menu_name']) . '" data-price="' . $row['sell_price'] . '">加入購物車</button>';
+                  echo '<button class="btn btn-outline-danger col-lg-6" onclick="showSuccessToast()" data-name="' . htmlspecialchars($row['Menu_name']) . '" data-price="' . $row['sell_price'] . '">加入購物車</button>';
                   echo '</div><!-- Menu Item -->';
                 }
               } else {
@@ -435,7 +447,7 @@
                   echo '<h4>' . htmlspecialchars($row['Menu_name']) . '</h4>';
                   // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
                   echo '<p class="price">$' . number_format($row['sell_price'], 2) . '</p>';
-                  echo '<button class="btn btn-outline-danger col-lg-6" data-name="' . htmlspecialchars($row['Menu_name']) . '" data-price="' . $row['sell_price'] . '">加入購物車</button>';
+                  echo '<button class="btn btn-outline-danger col-lg-6" onclick="showSuccessToast()" data-name="' . htmlspecialchars($row['Menu_name']) . '" data-price="' . $row['sell_price'] . '">加入購物車</button>';
                   echo '</div><!-- Menu Item -->';
                 }
               } else {
@@ -466,7 +478,7 @@
                   echo '<h4>' . htmlspecialchars($row['Menu_name']) . '</h4>';
                   // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
                   echo '<p class="price">$' . number_format($row['sell_price'], 2) . '</p>';
-                  echo '<button class="btn btn-outline-danger col-lg-6" data-name="' . htmlspecialchars($row['Menu_name']) . '" data-price="' . $row['sell_price'] . '">加入購物車</button>';
+                  echo '<button class="btn btn-outline-danger col-lg-6" onclick="showSuccessToast()" data-name="' . htmlspecialchars($row['Menu_name']) . '" data-price="' . $row['sell_price'] . '">加入購物車</button>';
                   echo '</div><!-- Menu Item -->';
                 }
               } else {
@@ -497,7 +509,7 @@
                   echo '<h4>' . htmlspecialchars($row['Menu_name']) . '</h4>';
                   // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
                   echo '<p class="price">$' . number_format($row['sell_price'], 2) . '</p>';
-                  echo '<button class="btn btn-outline-danger col-lg-6" data-name="' . htmlspecialchars($row['Menu_name']) . '" data-price="' . $row['sell_price'] . '">加入購物車</button>';
+                  echo '<button class="btn btn-outline-danger col-lg-6" onclick="showSuccessToast()" data-name="' . htmlspecialchars($row['Menu_name']) . '" data-price="' . $row['sell_price'] . '">加入購物車</button>';
                   echo '</div><!-- Menu Item -->';
                 }
               } else {

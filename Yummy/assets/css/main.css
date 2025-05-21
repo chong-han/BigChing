@@ -69,6 +69,11 @@
   scroll-behavior: smooth;
 }
 
+:root {
+  --color: #e90000;
+  --color-dark: #ce1212;
+}
+
 /*--------------------------------------------------------------
 # General Styling & Shared Classes
 --------------------------------------------------------------*/
@@ -1663,6 +1668,7 @@ section,
 /*--------------------------------------------------------------
 # Starter Section Section
 --------------------------------------------------------------*/
+/* --------- 動畫 --------- */
 .cart-slide {
   animation: slideFade 0.5s ease;
 }
@@ -1684,6 +1690,7 @@ section,
   }
 }
 
+/* --------- 購物車彈窗 --------- */
 .cart-modal {
   opacity: 0;
   pointer-events: none;
@@ -1708,6 +1715,7 @@ section,
   pointer-events: auto;
 }
 
+/* 購物車空訊息 */
 .cart-empty-message {
   text-align: center;
   padding: 1.5rem;
@@ -1715,6 +1723,7 @@ section,
   font-style: italic;
 }
 
+/* 購物車關閉按鈕 */
 .cart-modal-content .close {
   position: absolute;
   top: 10px;
@@ -1729,16 +1738,20 @@ section,
   color: #000;
 }
 
+/* --------- 數量調整按鈕 --------- */
 .qty-btn {
   padding: 0 5px;
   border: 0.2px solid #ccc;
   border-radius: 5px;
+  cursor: pointer;
+  background: transparent;
 }
 
 .qty-btn:hover {
   border: 1px dotted #ccc;
 }
 
+/* --------- RWD 手機優化 --------- */
 @media (max-width: 576px) {
   .cart-modal {
     right: 0.5rem;
@@ -1748,18 +1761,23 @@ section,
     padding: 1rem;
   }
 
+  /* 隱藏表頭 */
   .table thead {
     display: none;
   }
 
+  /* 表格改為區塊式顯示 */
   .table tbody td {
     display: block;
     width: 100%;
     text-align: right;
     position: relative;
     border: none;
+    padding-left: 50%;
+    box-sizing: border-box;
   }
 
+  /* 每個欄位標題用 data-label 呈現 */
   .table tbody td::before {
     content: attr(data-label);
     position: absolute;
@@ -1770,6 +1788,60 @@ section,
     font-weight: bold;
     text-align: left;
   }
+}
 
+/* --------- 加入購物車按鈕樣式 --------- */
+.add-cart {
+  display: inline-block;
+  padding: 0.75rem 1.25rem;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 1rem;
+  letter-spacing: 0.15rem;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
 
+.add-cart::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color);
+  border-radius: 10rem;
+  z-index: -2;
+}
+
+.add-cart::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  background-color: var(--color-dark);
+  transition: all 0.3s;
+  border-radius: 10rem;
+  z-index: -1;
+}
+
+.add-cart:hover::before {
+  width: 100%;
+}
+
+/* --------- 提示訊息 Toast --------- */
+.toast {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.toast.show {
+  opacity: 1;
 }
