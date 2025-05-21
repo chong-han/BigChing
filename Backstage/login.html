@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.5/dist/sweetalert2.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.5/dist/sweetalert2.all.min.js"></script>
+  <style>
+    /* 通用样式 */
+    body {
+      background-color: #f2f2f2;
+      text-align: center;
+    }
+
+    h1 {
+      margin-top: 3em;
+      color: #333;
+    }
+
+    /* 彈出視窗样式 */
+    .popup {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 60%;
+      max-width: 600px;
+      /* margin: 0 auto; */
+      padding: 30px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    /* 彈出視窗中的標籤樣式 */
+    .popup label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+      font-size: 20px;
+      text-align: left;
+    }
+
+    /* 彈出視窗中的輸入元素樣式 */
+    .popup input {
+      width: 100%;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 20px;
+      color: #000;
+      padding: 8px;
+      text-align: center;
+    }
+
+    /* 確定和取消按鈕的樣式 */
+    .popup input[type="submit"] {
+      background-color: #4CAF50; /* 綠色 */
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      font-size: 30px;
+      cursor: pointer;
+      width: 40%;
+      margin-top: 6%;
+      text-align: center;
+      padding: 10px;
+    }
+
+    .popup input[type="submit"]:hover {
+      background-color: #45a049; /* 綠色的 hover 效果 */
+    }
+
+    /* 彈出視窗的外觀樣式 - 手機版 */
+    @media (max-width: 768px) {
+      .popup {
+        width: 80%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>大慶滷味後台系統登入</h1>
+  <div class="popup">
+    <form action="process_login.php" method="post">
+      <label for="username">管理人帳號：</label>
+      <input type="text" id="username" name="username" required><br>
+      <label for="password">管理人密碼：</label>
+      <input type="password" id="password" name="password" required><br>
+      <input type="submit" value="登入">
+    </form>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const loginForm = document.querySelector("form");
+  
+      loginForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+        const username = loginForm.querySelector("#username").value;
+        const password = loginForm.querySelector("#password").value;
+  
+        // 在這裡可以添加前端驗證邏輯，如檢查用戶名和密碼的格式。
+  
+        // 使用fetch發送POST請求到後端處理登錄
+        fetch("process_login.php", {
+          method: "POST",
+          body: new URLSearchParams({ username, password }),
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.success) {
+              // 登錄成功，顯示SweetAlert2成功消息
+              Swal.fire("登入成功", "正在跳轉到首頁...", "success").then(() => {
+                // 跳轉到index.php
+                window.location.href = "index.php";
+              });
+            } else {
+              // 登錄失敗，顯示SweetAlert2錯誤消息
+              Swal.fire("登入失敗", "請重新登入", "error");
+            }
+          })
+          .catch((error) => {
+            console.error("登入失敗：", error);
+          });
+      });
+    });
+  </script>  
+</body>
+</html>
