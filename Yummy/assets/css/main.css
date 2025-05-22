@@ -1845,3 +1845,45 @@ section,
 .toast.show {
   opacity: 1;
 }
+
+/* --------- 送出按鈕 checkout.php --------- */
+button.check_btn {
+  position: relative;
+}
+
+/* loading 動畫圈圈 */
+button.check_btn::before {
+  content: '';
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  margin-top: -12px;
+  width: 24px;
+  height: 24px;
+  border: 2px solid;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.5s;
+  animation: rotate 0.8s linear infinite;
+}
+
+button.check_btn.sending {
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+button.check_btn.sending::before {
+  opacity: 1;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2025-05-18 09:21:00
+-- 產生時間： 2025-05-22 14:23:34
 -- 伺服器版本： 10.4.28-MariaDB
 -- PHP 版本： 8.2.4
 
@@ -39,16 +39,16 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`Customer_ID`, `Customer_name`, `Customer_mail`, `Customer_phone`) VALUES
-(1, '林小明', 'xiaoming.lin@example.com', '912345678'),
-(2, '陳美麗', 'meili.chen@example.com', '923456789'),
-(3, '王大志', 'dazhi.wang@example.com', '934567890'),
-(4, '李小華', 'xiaohua.li@example.com', '945678901'),
-(5, '張雅婷', 'yating.zhang@example.com', '956789012'),
-(6, '吳宗憲', 'zongxian.wu@example.com', '967890123'),
-(7, '周芷若', 'zhiruo.zhou@example.com', '978901234'),
-(8, '徐小娟', 'xiaojuan.xu@example.com', '989012345'),
-(9, '蔡宏仁', 'hongren.tsai@example.com', '990123456'),
-(10, '林宜蓁', 'yichen.lin@example.com', '911222333');
+(1, '林小明', 'xiaoming.lin@example.com', '0912345678'),
+(2, '陳美麗', 'meili.chen@example.com', '0923456789'),
+(3, '王大志', 'dazhi.wang@example.com', '0934567890'),
+(4, '李小華', 'xiaohua.li@example.com', '0945678901'),
+(5, '張雅婷', 'yating.zhang@example.com', '0956789012'),
+(6, '吳宗憲', 'zongxian.wu@example.com', '0967890123'),
+(7, '周芷若', 'zhiruo.zhou@example.com', '0978901234'),
+(8, '徐小娟', 'xiaojuan.xu@example.com', '0989012345'),
+(9, '蔡宏仁', 'hongren.tsai@example.com', '0990123456'),
+(10, '林宜蓁', 'yichen.lin@example.com', '0911222333');
 
 -- --------------------------------------------------------
 
@@ -347,7 +347,7 @@ INSERT INTO `menu` (`Menu_ID`, `Product_ID`, `Menu_name`, `sell_price`, `categor
 CREATE TABLE `order` (
   `Order_ID` int(11) NOT NULL COMMENT '訂單 ID',
   `Customer_ID` int(11) DEFAULT NULL COMMENT '顧客 ID (外鍵)',
-  `Order_Date` date DEFAULT NULL COMMENT '訂購日期',
+  `Order_Date` datetime DEFAULT NULL COMMENT '訂購日期',
   `Order_exit` tinyint(4) DEFAULT NULL COMMENT '訂單是否已完成 (0=否, 1=是)'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -359,7 +359,7 @@ CREATE TABLE `order` (
 
 CREATE TABLE `order_item` (
   `Item_ID` int(11) NOT NULL COMMENT '訂單項目 ID',
-  `Menu_ID` int(11) DEFAULT NULL COMMENT '菜單品項 ID (外鍵)',
+  `Menu_ID` int(11) NOT NULL COMMENT '菜單品項 ID (外鍵)',
   `Order_ID` int(11) DEFAULT NULL COMMENT '訂單 ID (外鍵)',
   `quantity` int(11) DEFAULT NULL COMMENT '數量',
   `unit_price` decimal(10,2) DEFAULT NULL COMMENT '單價'
@@ -536,7 +536,7 @@ ALTER TABLE `order`
 -- 資料表索引 `order_item`
 --
 ALTER TABLE `order_item`
-  ADD PRIMARY KEY (`Item_ID`),
+  ADD PRIMARY KEY (`Item_ID`,`Menu_ID`) USING BTREE,
   ADD KEY `Menu_ID` (`Menu_ID`),
   ADD KEY `Order_ID` (`Order_ID`);
 
@@ -553,6 +553,28 @@ ALTER TABLE `product`
 --
 ALTER TABLE `qa`
   ADD PRIMARY KEY (`QA_ID`);
+
+--
+-- 在傾印的資料表使用自動遞增(AUTO_INCREMENT)
+--
+
+--
+-- 使用資料表自動遞增(AUTO_INCREMENT) `customer`
+--
+ALTER TABLE `customer`
+  MODIFY `Customer_ID` int(11) NOT NULL AUTO_INCREMENT COMMENT '顧客 ID', AUTO_INCREMENT=10;
+
+--
+-- 使用資料表自動遞增(AUTO_INCREMENT) `order`
+--
+ALTER TABLE `order`
+  MODIFY `Order_ID` int(11) NOT NULL AUTO_INCREMENT COMMENT '訂單 ID';
+
+--
+-- 使用資料表自動遞增(AUTO_INCREMENT) `order_item`
+--
+ALTER TABLE `order_item`
+  MODIFY `Item_ID` int(11) NOT NULL AUTO_INCREMENT COMMENT '訂單項目 ID';
 
 --
 -- 已傾印資料表的限制式
@@ -581,7 +603,7 @@ ALTER TABLE `order`
 --
 ALTER TABLE `order_item`
   ADD CONSTRAINT `order_item_ibfk_1` FOREIGN KEY (`Menu_ID`) REFERENCES `menu` (`Menu_ID`),
-  ADD CONSTRAINT `order_item_ibfk_2` FOREIGN KEY (`Order_ID`) REFERENCES `order` (`Order_ID`);
+  ADD CONSTRAINT `order_item_ibfk_2` FOREIGN KEY (`Order_ID`) REFERENCES `order` (`Order_ID`) ON DELETE CASCADE;
 
 --
 -- 資料表的限制式 `product`

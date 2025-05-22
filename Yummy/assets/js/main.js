@@ -316,13 +316,58 @@ cartTableBody.addEventListener("click", (e) => {
   renderCart();
 });
 
-// 結帳按鈕
-checkoutBtn.addEventListener("click", () => {
-  alert("結帳成功！");
-  cart = {};
-  renderCart();
-  cartModal.classList.remove("show");
-  isCartVisible = false;
+// 購物車結帳按鈕
+checkoutBtn.addEventListener("click", (e) => {
+  e.preventDefault(); // 阻止表單的預設提交行為
+
+  const form = document.getElementById('checkoutForm'); // 取得表單元素
+  form.innerHTML = ''; // 清除現有的隱藏 input（如果有的話），確保每次提交都是最新的資料
+
+  // 添加一個隱藏 input 欄位用於總金額
+  const totalInput = document.createElement('input'); //
+  totalInput.type = 'hidden'; //
+  totalInput.name = 'cart_total'; //
+  totalInput.value = parseFloat(cartTotal.textContent.replace('$', '')).toFixed(2); //
+  form.appendChild(totalInput); //
+
+  // 為購物車中的每個品項添加隱藏 input 欄位
+  Object.values(cart).forEach((item, index) => { //
+    // 品項名稱
+    const nameInput = document.createElement('input'); //
+    nameInput.type = 'hidden'; //
+    nameInput.name = `item_name[${index}]`; //
+    nameInput.value = item.name; //
+    form.appendChild(nameInput); //
+
+    // 品項單價
+    const priceInput = document.createElement('input'); //
+    priceInput.type = 'hidden'; //
+    priceInput.name = `item_price[${index}]`; //
+    priceInput.value = item.price.toFixed(2); //
+    form.appendChild(priceInput); //
+
+    // 品項數量
+    const qtyInput = document.createElement('input'); //
+    qtyInput.type = 'hidden'; //
+    qtyInput.name = `item_qty[${index}]`; //
+    qtyInput.value = item.qty; //
+    form.appendChild(qtyInput); //
+
+    // 品項小計
+    const subtotalInput = document.createElement('input'); //
+    subtotalInput.type = 'hidden'; //
+    subtotalInput.name = `item_subtotal[${index}]`; //
+    subtotalInput.value = (item.price * item.qty).toFixed(2); //
+    form.appendChild(subtotalInput); //
+  });
+
+  form.submit(); // 程式化地提交表單
+
+  // alert("前往結帳結帳！"); 
+  cart = {}; // 清空購物車
+  renderCart(); // 重新渲染購物車以顯示為空
+  cartModal.classList.remove("show"); // 隱藏購物車模態視窗
+  isCartVisible = false; // 更新購物車可見狀態
 });
 
 // 初始化渲染購物車

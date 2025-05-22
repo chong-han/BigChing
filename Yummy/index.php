@@ -36,6 +36,7 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+
 </head>
 
 <body class="index-page">
@@ -66,34 +67,35 @@
       <!-- 購物車互動視窗 -->
       <div id="cart-modal" class="cart-modal">
         <div class="cart-modal-content">
-          <span id="close-cart" class="close">&times;</span>
-          <h4 class="mb-3">購物車清單</h4>
-          <div class="table-responsive">
-            <table class="table table-bordered table-sm align-middle text-center" id="cart-table">
-              <thead class="table-light">
-                <tr>
-                  <th>品項</th>
-                  <th>單價</th>
-                  <th>數量</th>
-                  <th>小計</th>
-                  <th> </th>
-                </tr>
-              </thead>
-              <tbody>
-              </tbody>
-            </table>
-          </div>
-          <div class="text-end mt-3">
-            <strong>總金額：</strong><span id="cart-total" class="text-danger fw-bold">$0.00</span>
-          </div>
-          <button id="checkout-btn" class="btn btn-success mt-3 col-12 ">結帳</button>
+          <form name="form1" action="checkout.php" method="post" id="checkoutForm">
+            <span id="close-cart" class="close">&times;</span>
+            <h4 class="mb-3">購物車清單</h4>
+            <div class="table-responsive">
+              <table class="table table-bordered table-sm align-middle text-center" id="cart-table">
+                <thead class="table-light">
+                  <tr>
+                    <th>品項</th>
+                    <th>單價</th>
+                    <th>數量</th>
+                    <th>小計</th>
+                    <th> </th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+            <div class="text-end mt-3">
+              <strong>總金額：</strong><span id="cart-total" class="text-danger fw-bold">$0.00</span>
+            </div>
+            <input id="checkout-btn" class="btn btn-success mt-3 col-12 " type="submit" value="結帳"></input>
+          </form>
         </div>
       </div>
       <!-- 提示窗 -->
       <div id="successToast"
         class="toast align-items-center border-0 position-fixed start-50 translate-middle-x m-3 shadow"
-        style="top: 10vh;"
-        role="alert" aria-live="assertive" aria-atomic="true">
+        style="top: 10vh;" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="d-flex">
           <div class="toast-body">
             ✅ 已加入購物車！
@@ -810,8 +812,7 @@
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
 
   <!-- Main JS File -->
-  <script src="assets/js/main.js"></script>
-
+  <script src="assets/js/main.js" async></script>
 </body>
 
 </html>

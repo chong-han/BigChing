@@ -18,3 +18,18 @@ $conn->set_charset("utf8");
 
 // 你可以選擇關閉錯誤報告在生產環境中
 // error_reporting(0);
+
+
+// 資料庫連線設定
+$host = 'localhost';
+$dbname = 'bigching';
+$user = 'root';
+$pass = '';
+
+try {
+  // ✅ 使用 PDO 建立資料庫連線
+  $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $user, $pass);
+  $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+  die("資料庫連線失敗：" . $e->getMessage());
+}
