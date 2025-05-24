@@ -112,6 +112,7 @@ try {
     session_start();
 
     $_SESSION['pickupNumber'] = str_pad($pickupNumber, 3, '0', STR_PAD_LEFT);
+    $_SESSION['orderid'] = $orderId;
 
     header("Location: index.php"); // ✅ 跳轉回首頁
     exit;

@@ -2,7 +2,8 @@
 session_start();
 $pickupMessage = '';
 
-if (isset($_SESSION['pickupNumber'])) {
+if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
+  $orderid = "訂單編號是：order_" . htmlspecialchars($_SESSION['orderid']);
   $pickupMessage = "您的今日取餐編號是：" . htmlspecialchars($_SESSION['pickupNumber']);
   unset($_SESSION['pickupNumber']);
 }
@@ -56,7 +57,7 @@ if (isset($_SESSION['pickupNumber'])) {
         Swal.fire({
           icon: 'info',
           title: '取餐通知',
-          text: '<?= $pickupMessage ?>',
+          html: '<?= $orderid ?><br><?= $pickupMessage ?>',
           confirmButtonText: '我知道了',
           confirmButtonColor: '#3085d6',
           background: '#fff',
