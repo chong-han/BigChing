@@ -8,6 +8,7 @@ if (!isset($_SESSION['username'])) {
 
 <!DOCTYPE HTML>
 <html>
+
 <head>
     <title>大慶滷味</title>
     <meta charset="utf-8" />
@@ -21,6 +22,7 @@ if (!isset($_SESSION['username'])) {
 
     </style>
 </head>
+
 <body class="is-preload">
     <!-- Header -->
     <div id="header">
@@ -50,7 +52,7 @@ if (!isset($_SESSION['username'])) {
 
             <!-- Social Icons -->
             <ul class="icons">
-            <li><span class="icon solid fa-sign-out-alt"><a href="logout.php">登出</a></span></li>
+                <li><span class="icon solid fa-sign-out-alt"><a href="logout.php">登出</a></span></li>
             </ul>
 
         </div>
@@ -60,26 +62,26 @@ if (!isset($_SESSION['username'])) {
         <i class="fas fa-search-plus"></i>
     </div>
     <!-- 搜尋 -->
-        <!-- 遮罩 -->
-        <div id="overlay" class="overlay"></div>
+    <!-- 遮罩 -->
+    <div id="overlay" class="overlay"></div>
 
-        <!-- 彈出視窗 -->
-        <div id="advanced-search-popup" class="popuple">
-            <div class="popup-content">
+    <!-- 彈出視窗 -->
+    <div id="advanced-search-popup" class="popuple">
+        <div class="popup-content">
 
-                <!-- 品項輸入框 -->
-                <div class="action-row">
-                    <label for="Items">品項：</label>
-                    <input type="text" id="Items" name="Items">
-                </div>
+            <!-- 品項輸入框 -->
+            <div class="action-row">
+                <label for="Items">品項：</label>
+                <input type="text" id="Items" name="Items">
+            </div>
 
-                <!-- 操作按鈕 -->
-                <div class="action-buttons">
-                    <button id="advanced-search-confirm-button">確定</button>
-                    <button id="advanced-search-cancel-button">取消</button>
-                </div>
+            <!-- 操作按鈕 -->
+            <div class="action-buttons">
+                <button id="advanced-search-confirm-button">確定</button>
+                <button id="advanced-search-cancel-button">取消</button>
             </div>
         </div>
+    </div>
 
     <!-- 搜尋 -->
 
@@ -115,11 +117,11 @@ if (!isset($_SESSION['username'])) {
         }
 
         // 查詢 ingredient 資料表
-        $sql = "SELECT * FROM ingredient";
+        $sql = "SELECT * FROM ingredient ORDER BY current_stock ASC";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
-            while($row = $result->fetch_assoc()) {
+            while ($row = $result->fetch_assoc()) {
                 echo '<div class="card">';
                 echo '<h3>' . htmlspecialchars($row["Ingredient_name"]) . '</h3>';
                 echo '<p>單位：' . htmlspecialchars($row["unit"]) . '</p>';
@@ -142,7 +144,8 @@ if (!isset($_SESSION['username'])) {
     <div id="footer">
         <!-- Copyright -->
         <ul class="copyright">
-            <li>&copy; 國立臺中科技大學</li><li>中科大團隊 </li>
+            <li>&copy; 國立臺中科技大學</li>
+            <li>中科大團隊 </li>
         </ul>
     </div>
     <!-- Scripts -->
@@ -188,64 +191,65 @@ if (!isset($_SESSION['username'])) {
         });
 
 
-    // 監聽 "進貨" 按鈕的點擊事件
-    document.querySelectorAll('.restock-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const ingredientId = this.getAttribute('data-id');
-            const ingredientName = this.getAttribute('data-name');
-            
-            // 顯示進貨視窗並預填品項名稱
-            document.getElementById('restock-items').value = ingredientName;
-            document.getElementById('restock-popup').style.display = 'block';
+        // 監聽 "進貨" 按鈕的點擊事件
+        document.querySelectorAll('.restock-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const ingredientId = this.getAttribute('data-id');
+                const ingredientName = this.getAttribute('data-name');
 
-            // 監聽確定按鈕
-            document.getElementById('restock-confirm-button').onclick = function() {
-                const amount = document.getElementById('restock-amount').value;
-                if (amount && !isNaN(amount) && parseInt(amount) > 0) {
-                    // 發送 AJAX 請求來更新庫存
-                    const xhr = new XMLHttpRequest();
-                    xhr.open("POST", "restock.php", true);
-                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                    xhr.onreadystatechange = function() {
-                        if (xhr.readyState === 4 && xhr.status === 200) {
-                            const response = JSON.parse(xhr.responseText); // 解析回應的 JSON
-                            
-                            // 根據回應顯示 SweetAlert2 視窗
-                            if (response.status === 'success') {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: '庫存更新成功!',
-                                    text: '庫存數量已成功更新。',
-                                }).then(() => {
-                                    location.reload(); // 頁面重新載入，顯示最新庫存
-                                });
-                            } else {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: '庫存更新失敗!',
-                                    text: response.message || '請稍後再試。',
-                                });
+                // 顯示進貨視窗並預填品項名稱
+                document.getElementById('restock-items').value = ingredientName;
+                document.getElementById('restock-popup').style.display = 'block';
+
+                // 監聽確定按鈕
+                document.getElementById('restock-confirm-button').onclick = function() {
+                    const amount = document.getElementById('restock-amount').value;
+                    if (amount && !isNaN(amount) && parseInt(amount) > 0) {
+                        // 發送 AJAX 請求來更新庫存
+                        const xhr = new XMLHttpRequest();
+                        xhr.open("POST", "restock.php", true);
+                        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                        xhr.onreadystatechange = function() {
+                            if (xhr.readyState === 4 && xhr.status === 200) {
+                                const response = JSON.parse(xhr.responseText); // 解析回應的 JSON
+
+                                // 根據回應顯示 SweetAlert2 視窗
+                                if (response.status === 'success') {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: '庫存更新成功!',
+                                        text: '庫存數量已成功更新。',
+                                    }).then(() => {
+                                        location.reload(); // 頁面重新載入，顯示最新庫存
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: '庫存更新失敗!',
+                                        text: response.message || '請稍後再試。',
+                                    });
+                                }
                             }
-                        }
-                    };
-                    xhr.send("id=" + ingredientId + "&amount=" + amount);
-                    document.getElementById('restock-popup').style.display = 'none'; // 關閉視窗
-                } else {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: '無效的數量',
-                        text: '請輸入有效的數量。',
-                    });
-                }
-            };
+                        };
+                        xhr.send("id=" + ingredientId + "&amount=" + amount);
+                        document.getElementById('restock-popup').style.display = 'none'; // 關閉視窗
+                    } else {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: '無效的數量',
+                            text: '請輸入有效的數量。',
+                        });
+                    }
+                };
 
-            // 監聽取消按鈕，隱藏視窗
-            document.getElementById('restock-cancel-button').onclick = function() {
-                document.getElementById('restock-popup').style.display = 'none';
-            };
+                // 監聽取消按鈕，隱藏視窗
+                document.getElementById('restock-cancel-button').onclick = function() {
+                    document.getElementById('restock-popup').style.display = 'none';
+                };
+            });
         });
-    });
     </script>
 
 </body>
+
 </html>

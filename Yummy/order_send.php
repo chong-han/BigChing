@@ -46,8 +46,8 @@ try {
 
     $orderId = $pdo->lastInsertId();
 
-    // ✅ 插入訂單明細
-    $menuQuery = $pdo->prepare("SELECT Menu_ID FROM menu WHERE Menu_name = ?");
+    // ✅ 插入訂單明細 + 扣除庫存
+    $menuQuery = $pdo->prepare("SELECT Menu_ID, category, Product_ID FROM menu WHERE Menu_name = ?");
     $itemInsert = $pdo->prepare("INSERT INTO order_item (Menu_ID, Order_ID, quantity, unit_price) VALUES (?, ?, ?, ?)");
 
     foreach ($itemNames as $i => $itemName) {
@@ -61,7 +61,50 @@ try {
         }
 
         $menuId = $menu['Menu_ID'];
+        $category = $menu['category'];
+        $productId = $menu['Product_ID'];
+
+        // 插入訂單項目
         $itemInsert->execute([$menuId, $orderId, $qty, $price]);
+
+        if ($category === '火鍋類') {
+            // ✅ 火鍋類：查 HotPot_ID → hotpot 表查食材
+            $stmt = $pdo->prepare("SELECT HotPot_ID FROM product WHERE Product_ID = ?");
+            $stmt->execute([$productId]);
+            $hotpot = $stmt->fetch(PDO::FETCH_ASSOC);
+            if (!$hotpot) {
+                throw new Exception("找不到火鍋產品的 HotPot_ID：「{$itemName}」");
+            }
+
+            $hotpotId = $hotpot['HotPot_ID'];
+
+            // 查火鍋需要的食材與數量
+            $stmt = $pdo->prepare("SELECT Ingredient_ID, quantity FROM hotpot WHERE HotPot_ID = ?");
+            $stmt->execute([$hotpotId]);
+            $ingredients = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            foreach ($ingredients as $ing) {
+                $ingredientId = $ing['Ingredient_ID'];
+                $requiredQty = $ing['quantity'] * $qty;
+
+                $stmtUpdate = $pdo->prepare("UPDATE ingredient SET current_stock = current_stock - ? WHERE Ingredient_ID = ?");
+                $stmtUpdate->execute([$requiredQty, $ingredientId]);
+            }
+        } else {
+            // ✅ 非火鍋類：從 product 表抓對應 Ingredient_ID
+            $stmt = $pdo->prepare("SELECT Ingredient_ID FROM product WHERE Product_ID = ?");
+            $stmt->execute([$productId]);
+            $product = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$product || !$product['Ingredient_ID']) {
+                throw new Exception("找不到產品對應的食材：「{$itemName}」");
+            }
+
+            $ingredientId = $product['Ingredient_ID'];
+
+            $stmtUpdate = $pdo->prepare("UPDATE ingredient SET current_stock = current_stock - ? WHERE Ingredient_ID = ?");
+            $stmtUpdate->execute([$qty, $ingredientId]); // 這邊 qty 就是需求數
+        }
     }
 
     $pdo->commit();
