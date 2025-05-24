@@ -548,7 +548,7 @@ if (isset($_SESSION['pickupNumber'])) {
 
         </div>
       </div>
-      <?=
+      <?php
       // 關閉資料庫連線
       $conn->close();
       ?>

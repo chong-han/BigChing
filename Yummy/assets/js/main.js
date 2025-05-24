@@ -196,8 +196,12 @@ function updateCartStorage() {
 // 顯示成功提示動畫
 function showSuccessToast() {
   const toastEl = document.getElementById('successToast');
+
+  toastEl.classList.remove('show'); // 先移除
+  void toastEl.offsetWidth; // 觸發 reflow，強制讓動畫重啟
   toastEl.classList.add('show');
-  setTimeout(() => toastEl.classList.remove('show'), 1500);
+
+  setTimeout(() => toastEl.classList.remove('show'), 3000);
 }
 
 // 更新購物車數量動畫
