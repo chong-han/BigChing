@@ -3,7 +3,7 @@ session_start();
 $pickupMessage = '';
 
 if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
-  $orderid = "訂單編號是：order_" . htmlspecialchars($_SESSION['orderid']);
+  $orderid = "訂單編號是：0" . htmlspecialchars($_SESSION['orderid']);
   $pickupMessage = "您的今日取餐編號是：" . htmlspecialchars($_SESSION['pickupNumber']);
   unset($_SESSION['pickupNumber']);
 }
@@ -82,6 +82,7 @@ if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
           <li><a href="#hero" class="active">首頁<br></a></li>
           <li><a href="#menu">菜單</a></li>
           <li><a href="#contact">關於</a></li>
+          <li><a href="#orderForm" id="orderQueryBtn">訂單查詢</a></li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
@@ -118,7 +119,7 @@ if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
           </form>
         </div>
       </div>
-      <!-- 提示窗 -->
+      <!-- 購物車提示窗 -->
       <div id="successToast"
         class="toast align-items-center border-0 position-fixed start-50 translate-middle-x m-3 shadow"
         style="top: 10vh;" role="alert" aria-live="assertive" aria-atomic="true">
@@ -129,6 +130,28 @@ if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
         </div>
       </div>
 
+      <script>
+        // 查詢訂單
+        document.getElementById("orderQueryBtn").addEventListener("click", function() {
+          Swal.fire({
+            title: "請輸入您的訂單編號",
+            html: `
+          <form  action="search_id.php" method="post" class="number-form">
+            <div class="row gy-4">
+              <div class="col-md-12">
+                <input type="number" class="form-control" id="OrderSerch-btn" name="OrderSerchID" placeholder="輸入 order_ 編號" required>
+              </div>
+              <div class="col-md-12 text-center">
+                <button type="submit" class="btn btn-primary">查詢</button>
+              </div>
+            </div>
+          </form>
+        `,
+            showConfirmButton: false, // 不顯示 SweetAlert 預設按鈕
+
+          });
+        });
+      </script>
 
     </div>
   </header>

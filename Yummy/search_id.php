@@ -28,6 +28,7 @@
 
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
+  <link href="assets/css/search_id.css" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: Yummy
@@ -94,11 +95,11 @@
     <!-- Page Title -->
     <div class="page-title" data-aos="fade">
       <div class="container">
-        <h1>結帳</h1>
+        <h1>訂單查詢</h1>
         <nav class="breadcrumbs">
           <ol>
             <li><a href="index.php">首頁</a></li>
-            <li class="current">結帳</li>
+            <li class="current">訂單查詢</li>
           </ol>
         </nav>
       </div>
@@ -110,112 +111,156 @@
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
         <h2>訂單資訊</h2>
-        <p><span class="description-title">您的訂單資訊</span></p>
+        <p><span class="description-title">訂單資訊</span></p>
       </div><!-- End Section Title -->
-      <form action="order_send.php" method="POST"> <!-- 你可以根據需求修改 action -->
-        <div class="container" data-aos="fade-up">
-          <?php
-          if (isset($_POST['item_name']) && is_array($_POST['item_name'])) {
-            echo "<h3>商品清單：</h3>";
-            echo "<table class='col-12 text-center' style='border-collapse: collapse;'>";
-            echo "<thead>
-              <tr>
-                <th style='border:1px solid #ccc; padding:8px;'>品項</th>
-                <th style='border:1px solid #ccc; padding:8px;'>單價</th>
-                <th style='border:1px solid #ccc; padding:8px;'>數量</th>
-                <th style='border:1px solid #ccc; padding:8px;'>小計</th>
-              </tr>
-            </thead>";
-            echo "<tbody>";
+      <div class="container" data-aos="fade-up">
+        <?php
+        include("db_connection.php"); // 資料庫連線
 
-            foreach ($_POST['item_name'] as $index => $itemName) {
-              $itemPrice = isset($_POST['item_price'][$index]) ? $_POST['item_price'][$index] : 'N/A';
-              $itemQty = isset($_POST['item_qty'][$index]) ? $_POST['item_qty'][$index] : 'N/A';
-              $itemSubtotal = isset($_POST['item_subtotal'][$index]) ? $_POST['item_subtotal'][$index] : 'N/A';
+        // 確保資料庫連線變數 $conn 已在 db_connection.php 中建立
+        if (!$conn) {
+          die("資料庫連線失敗: " . mysqli_connect_error());
+        }
 
-              echo "<tr>";
-              echo "<td style='border:1px solid #ccc; padding:8px;'>" . htmlspecialchars($itemName) . "</td>";
-              echo "<td style='border:1px solid #ccc; padding:8px;'>NT$" . htmlspecialchars($itemPrice) . "</td>";
-              echo "<td style='border:1px solid #ccc; padding:8px;'>" . htmlspecialchars($itemQty) . "</td>";
-              echo "<td style='border:1px solid #ccc; padding:8px;'>NT$" . htmlspecialchars($itemSubtotal) . "</td>";
-              echo "</tr>";
+        // 檢查是否有透過 POST 方法傳入 OrderSerchID
+        if (isset($_POST["OrderSerchID"]) && !empty($_POST["OrderSerchID"])) {
+          // 使用 mysqli_real_escape_string 預防 SQL 注入
+          $search_order_id = mysqli_real_escape_string($conn, $_POST["OrderSerchID"]);
 
-              // ✅ 隱藏欄位，讓商品資訊可以被送到 order_send.php
-              echo '<input type="hidden" name="item_name[]" value="' . htmlspecialchars($itemName) . '">';
-              echo '<input type="hidden" name="item_price[]" value="' . htmlspecialchars($itemPrice) . '">';
-              echo '<input type="hidden" name="item_qty[]" value="' . htmlspecialchars($itemQty) . '">';
-              echo '<input type="hidden" name="item_subtotal[]" value="' . htmlspecialchars($itemSubtotal) . '">';
+          // 查詢訂單主表和訂單項目表的 SQL
+          // 使用 LEFT JOIN 以確保即使訂單沒有項目，基本訂單資訊也能顯示
+          $sql_query = "
+                SELECT
+                    o.Order_ID,
+                    c.Customer_name,
+                    o.Order_Date,
+                    o.Order_exit,
+                    o.Pickup_Code,
+                    mi.Menu_name,
+                    oi.quantity,
+                    oi.unit_price
+                FROM
+                    `order` AS o
+                LEFT JOIN
+                    `customer` AS c ON o.Customer_ID = c.Customer_ID
+                LEFT JOIN
+                    `order_item` AS oi ON o.Order_ID = oi.Order_ID
+                LEFT JOIN
+                    `menu` AS mi ON oi.Menu_ID = mi.Menu_ID
+                WHERE
+                    o.Order_ID = '$search_order_id'
+                ORDER BY
+                    o.Order_ID, mi.Menu_name;
+            ";
+
+          $result = mysqli_query($conn, $sql_query); // 執行查詢
+
+          if ($result) {
+            if (mysqli_num_rows($result) > 0) {
+              // 儲存訂單主資訊，因為它會在每個項目中重複
+              $order_info = null;
+              $order_items = [];
+
+              while ($row = mysqli_fetch_assoc($result)) { // 使用 mysqli_fetch_assoc 讓結果陣列的鍵名是欄位名稱
+                if ($order_info === null) {
+                  $order_info = [
+                    'Order_ID' => $row['Order_ID'],
+                    'Customer_name' => $row['Customer_name'],
+                    'Order_Date' => $row['Order_Date'],
+                    'Order_exit' => $row['Order_exit'],
+                    'Pickup_Code' => $row['Pickup_Code']
+                  ];
+                }
+                // 只有當 Menu_name 不為 NULL 時，才表示有訂單項目
+                if ($row['Menu_name'] !== null) {
+                  $order_items[] = [
+                    'Menu_name' => $row['Menu_name'],
+                    'quantity' => $row['quantity'],
+                    'unit_price' => $row['unit_price']
+                  ];
+                }
+              }
+
+              echo "
+              <div class='card mb-4 col-12 shadow-sm'>
+                <div class='card-header'>
+                  <p class='h4 mb-0'>訂單編號: 0" . htmlspecialchars($order_info['Order_ID']) . " 的詳細資訊</p>
+                </div>
+                <div class='card-body'>
+                  <p class='mb-2'><strong>👤 顧客姓名:</strong> " . htmlspecialchars($order_info['Customer_name']) . "</p>
+                  <p class='mb-2'><strong>🗓️ 訂購日期:</strong> " . htmlspecialchars($order_info['Order_Date']) . "</p>
+                  <p class='mb-2'><strong>✅ 訂單是否完成:</strong> " . ($order_info['Order_exit'] == 1 ? '<span class="text-success">是</span>' : '<span class="text-danger">否</span>') . "</p>
+                  <p class='mb-0'><strong>🔢 取餐編號:</strong> " . htmlspecialchars($order_info['Pickup_Code']) . "</p>
+                </div>
+              </div>
+              ";
+            } else {
+              echo "<p>找不到訂單 ID 為 " . htmlspecialchars($search_order_id) . " 的記錄。</p>";
             }
-
-            echo "</tbody>";
-            echo "</table>";
           } else {
-            echo "<p>沒有收到商品資訊。</p>";
+            echo "<p>執行查詢時發生錯誤: " . mysqli_error($conn) . "</p>";
+          }
+        } else {
+          echo "<p>請透過 POST 方法傳入 'OrderSerchID' 參數。</p>";
+        }
+        ?>
+
+      </div>
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>訂單項目</h2>
+        <p><span class="description-title">訂單項目</span></p>
+      </div><!-- End Section Title -->
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <?php
+
+        if (!empty($order_items)) {
+          echo "<div class=''>";
+          echo "<table class='table table-hover align-middle'>";
+          echo "<thead class='table-primary text-center'>
+            <tr>
+              <th scope='col'>品項</th>
+              <th scope='col'>單價</th>
+              <th scope='col'>數量</th>
+              <th scope='col'>小計</th>
+            </tr>
+          </thead>";
+          echo "<tbody>";
+
+          $total_order_price = 0;
+          foreach ($order_items as $item) {
+            $item_total = $item['quantity'] * $item['unit_price'];
+            $total_order_price += $item_total;
+
+            echo "<tr class='text-center'>";
+            echo "<td>" . htmlspecialchars($item['Menu_name']) . "</td>";
+            echo "<td>$" . htmlspecialchars(number_format($item['unit_price'], 2)) . "</td>";
+            echo "<td>" . htmlspecialchars($item['quantity']) . "</td>";
+            echo "<td>$" . htmlspecialchars(number_format($item_total, 2)) . "</td>";
+            echo "</tr>";
           }
 
-          // 顯示總計
-          if (isset($_POST['cart_total'])) {
-            echo "<h3 class='mt-4'>總計：</h3>";
-            echo "<p class='h5'><strong>NT$" . htmlspecialchars($_POST['cart_total']) . "</strong></p>";
-          } else {
-            echo "<p>沒有收到訂單總計。</p>";
-          }
-          ?>
-        </div>
-
-        <!-- Section Title -->
-        <div class="container section-title" data-aos="fade-up">
-          <h2>您的資訊</h2>
-          <p><span class="description-title">您的結帳資訊</span></p>
-        </div><!-- End Section Title -->
-
-        <div class="container" data-aos="fade-up" data-aos-delay="100">
-          <div class="mb-3 row">
-            <label for="name" class="col-sm-2 col-form-label">姓名 <span style="color: red;">*</span></label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="name" name="name" placeholder="請輸入姓名" required>
-            </div>
-          </div>
-
-          <div class="mb-3 row">
-            <label for="email" class="col-sm-2 col-form-label">電子郵件</label>
-            <div class="col-sm-10">
-              <input type="email" class="form-control" id="email" name="email" placeholder="請輸入電子郵件(選填)">
-            </div>
-          </div>
-
-          <div class="mb-3 row">
-            <label for="phone" class="col-sm-2 col-form-label">電話 <span style="color: red;">*</span></label>
-            <div class="col-sm-10">
-              <input type="tel" class="form-control" id="phone" name="phone" placeholder="請輸入聯絡電話" required pattern="09\d{8}" title="請輸入正確的手機格式，例如 0912345678">
-            </div>
-          </div>
-
-          <div class="mb-3 row">
-            <label for="payment" class="col-sm-2 col-form-label">付款方式 <span style="color: red;">*</span></label>
-            <div class="col-sm-10">
-              <select class="form-control" id="payment" name="payment" required>
-                <option value="">請選擇付款方式</option>
-                <option value="現金支付">現金支付</option>
-                <option value="信用卡">信用卡</option>
-                <option value="LINE Pay">LINE Pay</option>
-                <option value="ATM轉帳">ATM轉帳</option>
-              </select>
-            </div>
-          </div>
+          echo "</tbody>";
+          echo "<tfoot class='table-light'>
+            <tr>
+              <td colspan='3' class='text-end'><strong>訂單總金額</strong></td>
+              <td class='text-center'><strong>$" . htmlspecialchars(number_format($total_order_price, 2)) . "</strong></td>
+            </tr>
+          </tfoot>";
+          echo "</table>";
+          echo "</div>";
+        } else {
+          echo "<p>此訂單沒有任何項目。</p>";
+        }
 
 
+        // 關閉資料庫連線
+        mysqli_close($conn);
+        ?>
 
-          <div class="mt-3">
-            <input type="checkbox" id="agree" name="agree" required>
-            <label for="agree">我已閱讀並同意 <a href="#">購買條款與退換貨政策</a></label>
-          </div>
-
-          <button class="btn btn-success col-12  col-md-3 mt-3 btn-block check_btn" type="submit">確認結帳</button>
-        </div>
-      </form>
-
-
+      </div>
     </section><!-- /Starter Section Section -->
 
   </main>
