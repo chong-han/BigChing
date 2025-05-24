@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.2
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2025-05-24 05:56:39
--- 伺服器版本： 10.4.28-MariaDB
--- PHP 版本： 8.2.4
+-- 產生時間： 2025-05-24 16:45:03
+-- 伺服器版本： 10.4.32-MariaDB
+-- PHP 版本： 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -39,16 +39,16 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`Customer_ID`, `Customer_name`, `Customer_mail`, `Customer_phone`) VALUES
-(1, '林小明', 'xiaoming.lin@example.com', '0912345678'),
-(2, '陳美麗', 'meili.chen@example.com', '0923456789'),
-(3, '王大志', 'dazhi.wang@example.com', '0934567890'),
-(4, '李小華', 'xiaohua.li@example.com', '0945678901'),
-(5, '張雅婷', 'yating.zhang@example.com', '0956789012'),
-(6, '吳宗憲', 'zongxian.wu@example.com', '0967890123'),
-(7, '周芷若', 'zhiruo.zhou@example.com', '0978901234'),
-(8, '徐小娟', 'xiaojuan.xu@example.com', '0989012345'),
-(9, '蔡宏仁', 'hongren.tsai@example.com', '0990123456'),
-(10, '林宜蓁', 'yichen.lin@example.com', '0911222333');
+(1, '林小明', 'xiaoming.lin@example.com', '912345678'),
+(2, '陳美麗', 'meili.chen@example.com', '923456789'),
+(3, '王大志', 'dazhi.wang@example.com', '934567890'),
+(4, '李小華', 'xiaohua.li@example.com', '945678901'),
+(5, '張雅婷', 'yating.zhang@example.com', '956789012'),
+(6, '吳宗憲', 'zongxian.wu@example.com', '967890123'),
+(7, '周芷若', 'zhiruo.zhou@example.com', '978901234'),
+(8, '徐小娟', 'xiaojuan.xu@example.com', '989012345'),
+(9, '蔡宏仁', 'hongren.tsai@example.com', '990123456'),
+(10, '林宜蓁', 'yichen.lin@example.com', '911222333');
 
 -- --------------------------------------------------------
 
@@ -105,7 +105,10 @@ INSERT INTO `hotpot` (`HotPot_ID`, `HotPot_name`, `Ingredient_ID`, `quantity`) V
 (7, '招牌鴨血臭臭鍋', 57, 1),
 (7, '招牌鴨血臭臭鍋', 62, 1),
 (7, '招牌鴨血臭臭鍋', 64, 1),
-(7, '招牌鴨血臭臭鍋', 79, 1);
+(7, '招牌鴨血臭臭鍋', 79, 1),
+(8, '阿罵肉鍋', 1, 1),
+(8, '阿罵肉鍋', 12, 2),
+(8, '阿罵肉鍋', 17, 1);
 
 -- --------------------------------------------------------
 
@@ -114,7 +117,7 @@ INSERT INTO `hotpot` (`HotPot_ID`, `HotPot_name`, `Ingredient_ID`, `quantity`) V
 --
 
 CREATE TABLE `ingredient` (
-  `Ingredient_ID` int(11) NOT NULL COMMENT '食材 ID',
+  `Ingredient_ID` int(11) NOT NULL,
   `Ingredient_name` varchar(100) DEFAULT NULL COMMENT '食材名稱',
   `unit` varchar(20) DEFAULT NULL COMMENT '單位（例如：克、份）',
   `current_stock` int(11) DEFAULT NULL COMMENT '目前庫存數量'
@@ -210,13 +213,14 @@ INSERT INTO `ingredient` (`Ingredient_ID`, `Ingredient_name`, `unit`, `current_s
 (83, '豆芽菜', '份', 100),
 (84, '玉米筍', '份', 100),
 (85, '極品香菇', '份', 100),
-(86, '秀珍菇', '份', 100),
+(86, '秀針菇', '份', 100),
 (87, '杏鮑菇', '份', 100),
 (88, '特選黑木耳', '份', 100),
 (89, '金針菇', '份', 100),
 (90, '菠菜', '份', 100),
 (91, '茼蒿', '份', 100),
-(92, '山茼蒿', '份', 100);
+(92, '山茼蒿', '份', 100),
+(93, '蜘蛛', '', 0);
 
 -- --------------------------------------------------------
 
@@ -225,7 +229,7 @@ INSERT INTO `ingredient` (`Ingredient_ID`, `Ingredient_name`, `unit`, `current_s
 --
 
 CREATE TABLE `menu` (
-  `Menu_ID` int(11) NOT NULL COMMENT '菜單 ID',
+  `Menu_ID` int(11) NOT NULL,
   `Product_ID` int(11) DEFAULT NULL COMMENT '產品 ID (外鍵)',
   `Menu_name` varchar(100) DEFAULT NULL COMMENT '品項名稱',
   `sell_price` decimal(10,2) DEFAULT NULL COMMENT '售價',
@@ -336,7 +340,9 @@ INSERT INTO `menu` (`Menu_ID`, `Product_ID`, `Menu_name`, `sell_price`, `categor
 (96, 96, '金針菇', 20.00, '香菇類', 1),
 (97, 97, '菠菜', 20.00, '冬季蔬菜類', 1),
 (98, 98, '茼蒿', 20.00, '冬季蔬菜類', 1),
-(99, 99, '山茼蒿', 20.00, '冬季蔬菜類', 1);
+(99, 99, '山茼蒿', 20.00, '冬季蔬菜類', 1),
+(100, 100, '蜘蛛', 30.00, '主食麵類', 1),
+(101, 101, '阿罵肉鍋', 300.00, '火鍋類', 1);
 
 -- --------------------------------------------------------
 
@@ -347,9 +353,8 @@ INSERT INTO `menu` (`Menu_ID`, `Product_ID`, `Menu_name`, `sell_price`, `categor
 CREATE TABLE `order` (
   `Order_ID` int(11) NOT NULL COMMENT '訂單 ID',
   `Customer_ID` int(11) DEFAULT NULL COMMENT '顧客 ID (外鍵)',
-  `Order_Date` datetime DEFAULT NULL COMMENT '訂購日期',
-  `Order_exit` tinyint(4) DEFAULT NULL COMMENT '訂單是否已完成 (0=否, 1=是)',
-  `Pickup_Code` varchar(10) DEFAULT NULL COMMENT '取餐編號'
+  `Order_Date` date DEFAULT NULL COMMENT '訂購日期',
+  `Order_exit` tinyint(4) DEFAULT NULL COMMENT '訂單是否已完成 (0=否, 1=是)'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -360,7 +365,7 @@ CREATE TABLE `order` (
 
 CREATE TABLE `order_item` (
   `Item_ID` int(11) NOT NULL COMMENT '訂單項目 ID',
-  `Menu_ID` int(11) NOT NULL COMMENT '菜單品項 ID (外鍵)',
+  `Menu_ID` int(11) DEFAULT NULL COMMENT '菜單品項 ID (外鍵)',
   `Order_ID` int(11) DEFAULT NULL COMMENT '訂單 ID (外鍵)',
   `quantity` int(11) DEFAULT NULL COMMENT '數量',
   `unit_price` decimal(10,2) DEFAULT NULL COMMENT '單價'
@@ -373,7 +378,7 @@ CREATE TABLE `order_item` (
 --
 
 CREATE TABLE `product` (
-  `Product_ID` int(11) NOT NULL COMMENT '產品 ID',
+  `Product_ID` int(11) NOT NULL,
   `cost_price` decimal(10,2) DEFAULT NULL COMMENT '成本價格',
   `Ingredient_ID` int(11) DEFAULT NULL COMMENT '食材 ID (外鍵)',
   `HotPot_ID` int(11) DEFAULT NULL COMMENT '火鍋類型 ID (外鍵)'
@@ -482,7 +487,9 @@ INSERT INTO `product` (`Product_ID`, `cost_price`, `Ingredient_ID`, `HotPot_ID`)
 (96, 15.00, 89, NULL),
 (97, 15.00, 90, NULL),
 (98, 15.00, 91, NULL),
-(99, 15.00, 92, NULL);
+(99, 15.00, 92, NULL),
+(100, 100.00, 93, NULL),
+(101, 100.00, NULL, 8);
 
 -- --------------------------------------------------------
 
@@ -537,7 +544,7 @@ ALTER TABLE `order`
 -- 資料表索引 `order_item`
 --
 ALTER TABLE `order_item`
-  ADD PRIMARY KEY (`Item_ID`,`Menu_ID`) USING BTREE,
+  ADD PRIMARY KEY (`Item_ID`),
   ADD KEY `Menu_ID` (`Menu_ID`),
   ADD KEY `Order_ID` (`Order_ID`);
 
@@ -560,22 +567,22 @@ ALTER TABLE `qa`
 --
 
 --
--- 使用資料表自動遞增(AUTO_INCREMENT) `customer`
+-- 使用資料表自動遞增(AUTO_INCREMENT) `ingredient`
 --
-ALTER TABLE `customer`
-  MODIFY `Customer_ID` int(11) NOT NULL AUTO_INCREMENT COMMENT '顧客 ID', AUTO_INCREMENT=11;
+ALTER TABLE `ingredient`
+  MODIFY `Ingredient_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
 
 --
--- 使用資料表自動遞增(AUTO_INCREMENT) `order`
+-- 使用資料表自動遞增(AUTO_INCREMENT) `menu`
 --
-ALTER TABLE `order`
-  MODIFY `Order_ID` int(11) NOT NULL AUTO_INCREMENT COMMENT '訂單 ID';
+ALTER TABLE `menu`
+  MODIFY `Menu_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
 
 --
--- 使用資料表自動遞增(AUTO_INCREMENT) `order_item`
+-- 使用資料表自動遞增(AUTO_INCREMENT) `product`
 --
-ALTER TABLE `order_item`
-  MODIFY `Item_ID` int(11) NOT NULL AUTO_INCREMENT COMMENT '訂單項目 ID';
+ALTER TABLE `product`
+  MODIFY `Product_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
 
 --
 -- 已傾印資料表的限制式
@@ -604,7 +611,7 @@ ALTER TABLE `order`
 --
 ALTER TABLE `order_item`
   ADD CONSTRAINT `order_item_ibfk_1` FOREIGN KEY (`Menu_ID`) REFERENCES `menu` (`Menu_ID`),
-  ADD CONSTRAINT `order_item_ibfk_2` FOREIGN KEY (`Order_ID`) REFERENCES `order` (`Order_ID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `order_item_ibfk_2` FOREIGN KEY (`Order_ID`) REFERENCES `order` (`Order_ID`);
 
 --
 -- 資料表的限制式 `product`
