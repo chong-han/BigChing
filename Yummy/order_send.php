@@ -32,9 +32,18 @@ try {
         $customerId = $pdo->lastInsertId();
     }
 
+    // 計算今天已經有幾筆訂單
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM `order` WHERE DATE(Order_Date) = CURDATE()");
+    $stmt->execute();
+    $countToday = $stmt->fetchColumn();
+
+    // 今日的取餐編號 +1
+    $pickupNumber = $countToday + 1;
+
     // ✅ 新增訂單
-    $stmt = $pdo->prepare("INSERT INTO `order` (Customer_ID, Order_Date, Order_exit) VALUES (?, NOW(), 1)");
-    $stmt->execute([$customerId]);
+    $stmt = $pdo->prepare("INSERT INTO `order` (Customer_ID, Order_Date, Order_exit, Pickup_Code) VALUES (?, NOW(), 1, ?)");
+    $stmt->execute([$customerId, $pickupNumber]);
+
     $orderId = $pdo->lastInsertId();
 
     // ✅ 插入訂單明細
@@ -57,10 +66,12 @@ try {
 
     $pdo->commit();
 
+    session_start();
+
+    $_SESSION['pickupNumber'] = str_pad($pickupNumber, 3, '0', STR_PAD_LEFT);
+
     header("Location: index.php"); // ✅ 跳轉回首頁
     exit;
-
-    // echo "<h3>✅ 訂單已送出！</h3><p>訂單編號：$orderId</p>";
 } catch (Exception $e) {
     $pdo->rollBack();
     echo "<p>❌ 發生錯誤：" . $e->getMessage() . "</p>";

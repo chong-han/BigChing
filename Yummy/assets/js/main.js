@@ -216,9 +216,10 @@ function renderCart() {
 
   if (items.length === 0) {
     cartTableBody.innerHTML = `
-      <tr>
-        <td colspan="5"><div class="cart-empty-message">購物車目前是空的</div></td>
-      </tr>`;
+      <th colspan="5" class="cart-empty-th">
+        <div class="cart-empty-message">購物車目前是空的</div>
+      </th>
+    `;
     checkoutBtn.style.display = 'none';
   } else {
     checkoutBtn.style.display = 'block';

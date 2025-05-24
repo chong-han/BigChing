@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2025-05-22 14:23:34
+-- 產生時間： 2025-05-24 05:56:39
 -- 伺服器版本： 10.4.28-MariaDB
 -- PHP 版本： 8.2.4
 
@@ -348,7 +348,8 @@ CREATE TABLE `order` (
   `Order_ID` int(11) NOT NULL COMMENT '訂單 ID',
   `Customer_ID` int(11) DEFAULT NULL COMMENT '顧客 ID (外鍵)',
   `Order_Date` datetime DEFAULT NULL COMMENT '訂購日期',
-  `Order_exit` tinyint(4) DEFAULT NULL COMMENT '訂單是否已完成 (0=否, 1=是)'
+  `Order_exit` tinyint(4) DEFAULT NULL COMMENT '訂單是否已完成 (0=否, 1=是)',
+  `Pickup_Code` varchar(10) DEFAULT NULL COMMENT '取餐編號'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -562,7 +563,7 @@ ALTER TABLE `qa`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `Customer_ID` int(11) NOT NULL AUTO_INCREMENT COMMENT '顧客 ID', AUTO_INCREMENT=10;
+  MODIFY `Customer_ID` int(11) NOT NULL AUTO_INCREMENT COMMENT '顧客 ID', AUTO_INCREMENT=11;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `order`

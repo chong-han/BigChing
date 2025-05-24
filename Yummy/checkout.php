@@ -173,9 +173,9 @@
             <div class="col-sm-10">
               <select class="form-control" id="payment" name="payment" required>
                 <option value="">請選擇付款方式</option>
+                <option value="現金支付">現金支付</option>
                 <option value="信用卡">信用卡</option>
                 <option value="LINE Pay">LINE Pay</option>
-                <option value="貨到付款">貨到付款</option>
                 <option value="ATM轉帳">ATM轉帳</option>
               </select>
             </div>

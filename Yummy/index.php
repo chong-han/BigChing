@@ -1,3 +1,12 @@
+<?php
+session_start();
+$pickupMessage = '';
+
+if (isset($_SESSION['pickupNumber'])) {
+  $pickupMessage = "您的今日取餐編號是：" . htmlspecialchars($_SESSION['pickupNumber']);
+  unset($_SESSION['pickupNumber']);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -40,6 +49,22 @@
 </head>
 
 <body class="index-page">
+
+  <?php if (!empty($pickupMessage)): ?>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        Swal.fire({
+          icon: 'info',
+          title: '取餐通知',
+          text: '<?= $pickupMessage ?>',
+          confirmButtonText: '我知道了',
+          confirmButtonColor: '#3085d6',
+          background: '#fff',
+          backdrop: true
+        });
+      });
+    </script>
+  <?php endif; ?>
 
   <header id="header" class="header d-flex align-items-center sticky-top">
     <div class="container position-relative d-flex align-items-center justify-content-between">
@@ -291,7 +316,7 @@
                     echo '<a href="./assets/img/暫無圖片.png" class="glightbox"><img src="./assets/img/暫無圖片.png" class="menu-img img-fluid" alt=""></a>';
                   }
                   echo '<h4>' . $menu_name . '</h4>';
-                  echo '<p class="ingredients">' . $ingredient_string . '</p>';
+                  echo '<p class="ingredients text-truncate" onclick="this.classList.toggle(\'expanded\')" title="點擊展開 / 收合">' . $ingredient_string . '</p>';
                   echo '<p class="price">$' . $menu_price . '</p>';
                   echo '<button class="btn btn-outline-danger col-lg-6" onclick="showSuccessToast()" data-name="' . $menu_name . '" data-price="' . $row['sell_price'] . '">加入購物車</button>';
                   echo '</div><!-- Menu Item -->';
@@ -810,6 +835,8 @@
   <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
   <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <!-- SweetAlert2 CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <!-- Main JS File -->
   <script src="assets/js/main.js" async></script>
