@@ -28,7 +28,7 @@
 
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
-  <link href="assets/css/search_id.css" rel="stylesheet">
+  <link href="assets/css/search.css" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: Yummy
@@ -74,7 +74,7 @@
           <form  action="search_id.php" method="post" class="number-form">
             <div class="row gy-4">
               <div class="col-md-12">
-                <input type="number" class="form-control" id="OrderSerch-btn" name="OrderSerchID" placeholder="輸入 order_ 編號" required>
+                <input type="number" class="form-control" id="OrderSerch-btn" name="OrderSerchID" placeholder="輸入 訂單編號" required>
               </div>
               <div class="col-md-12 text-center">
                 <button type="submit" class="btn btn-primary">查詢</button>
@@ -217,10 +217,9 @@
         <?php
 
         if (!empty($order_items)) {
-          echo "<div class=''>";
-          echo "<table class='table table-hover align-middle'>";
-          echo "<thead class='table-primary text-center'>
-            <tr>
+          echo "<table  class='table table-hover shadow-sm'>";
+          echo "<thead class='text-center table-light'>
+            <tr >
               <th scope='col'>品項</th>
               <th scope='col'>單價</th>
               <th scope='col'>數量</th>
@@ -243,14 +242,10 @@
           }
 
           echo "</tbody>";
-          echo "<tfoot class='table-light'>
-            <tr>
-              <td colspan='3' class='text-end'><strong>訂單總金額</strong></td>
-              <td class='text-center'><strong>$" . htmlspecialchars(number_format($total_order_price, 2)) . "</strong></td>
-            </tr>
-          </tfoot>";
           echo "</table>";
-          echo "</div>";
+          echo "<div class='text-end mt-2 me-4'>
+               <strong>訂單總金額 : </strong>  <strong>$" . htmlspecialchars(number_format($total_order_price, 2)) . "</strong>
+          </div>";
         } else {
           echo "<p>此訂單沒有任何項目。</p>";
         }

@@ -139,7 +139,7 @@ if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
           <form  action="search_id.php" method="post" class="number-form">
             <div class="row gy-4">
               <div class="col-md-12">
-                <input type="number" class="form-control" id="OrderSerch-btn" name="OrderSerchID" placeholder="輸入 order_ 編號" required>
+                <input type="number" class="form-control" id="OrderSerch-btn" name="OrderSerchID" placeholder="輸入 訂單編號" required>
               </div>
               <div class="col-md-12 text-center">
                 <button type="submit" class="btn btn-primary">查詢</button>
