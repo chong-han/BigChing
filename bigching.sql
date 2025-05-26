@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2025-05-26 16:58:53
+-- 產生時間： 2025-05-26 17:21:52
 -- 伺服器版本： 10.4.32-MariaDB
 -- PHP 版本： 8.0.30
 
@@ -48,7 +48,8 @@ INSERT INTO `customer` (`Customer_ID`, `Customer_name`, `Customer_mail`, `Custom
 (7, '周芷若', 'zhiruo.zhou@example.com', '0978901234'),
 (8, '徐小娟', 'xiaojuan.xu@example.com', '0989012345'),
 (9, '蔡宏仁', 'hongren.tsai@example.com', '0990123456'),
-(10, '林宜蓁', 'yichen.lin@example.com', '0911222333');
+(10, '林宜蓁', 'yichen.lin@example.com', '0911222333'),
+(11, 'James', 'thriving.gh@gmail.com', '0963937958');
 
 -- --------------------------------------------------------
 
@@ -145,10 +146,10 @@ INSERT INTO `ingredient` (`Ingredient_ID`, `Ingredient_name`, `unit`, `current_s
 (18, '粉腸', '份', 100),
 (19, '豬頭皮', '份', 100),
 (20, '豬耳朵', '份', 100),
-(21, '豬舌頭', '份', 100),
+(21, '豬舌頭', '份', 98),
 (22, '鴨胗', '份', 100),
-(23, '豬皮', '份', 100),
-(24, '鴨心', '份', 100),
+(23, '豬皮', '份', 97),
+(24, '鴨心', '份', 98),
 (25, '手工大黑豆干', '份', 100),
 (26, '五香豆干', '份', 100),
 (27, '手工蘭花干', '份', 100),
@@ -178,21 +179,21 @@ INSERT INTO `ingredient` (`Ingredient_ID`, `Ingredient_name`, `unit`, `current_s
 (51, '油條', '份', 100),
 (52, '手工水晶餃', '份', 100),
 (53, '雪魚丸', '粒', 300),
-(54, '魚餃', '粒', 300),
+(54, '魚餃', '粒', 296),
 (55, '燕餃', '粒', 300),
 (56, '鴨肉丸', '粒', 300),
-(57, '小蝦球', '粒', 300),
+(57, '小蝦球', '粒', 297),
 (58, '魚卵卷', '片', 300),
 (59, '龍蝦沙拉', '份', 100),
 (60, '魚包蛋', '顆', 100),
-(61, '爆濃起司球', '顆', 100),
-(62, '麻吉燒（芝麻）', '顆', 100),
-(63, '麻吉燒（花生）', '顆', 100),
-(64, '新竹大貢丸', '顆', 100),
-(65, '蟹肉棒', '條', 100),
+(61, '爆濃起司球', '顆', 96),
+(62, '麻吉燒（芝麻）', '顆', 97),
+(63, '麻吉燒（花生）', '顆', 97),
+(64, '新竹大貢丸', '顆', 98),
+(65, '蟹肉棒', '條', 97),
 (66, '起司魚豆腐', '塊', 100),
 (67, '鑫鑫腸', '條', 100),
-(68, '韓國年糕', '條', 100),
+(68, '韓國年糕', '條', 98),
 (69, '烏蛋', '顆', 100),
 (70, '章魚球', '顆', 100),
 (71, '花椰菜', '份', 100),
@@ -204,8 +205,8 @@ INSERT INTO `ingredient` (`Ingredient_ID`, `Ingredient_name`, `unit`, `current_s
 (77, '大陸妹', '份', 100),
 (78, '洋蔥', '份', 100),
 (79, '南瓜', '份', 100),
-(80, '山苦瓜', '份', 100),
-(81, '青椒', '份', 100),
+(80, '山苦瓜', '份', 98),
+(81, '青椒', '份', 95),
 (82, '四季豆', '份', 100),
 (83, '豆芽菜', '份', 100),
 (84, '玉米筍', '份', 100),
@@ -215,7 +216,7 @@ INSERT INTO `ingredient` (`Ingredient_ID`, `Ingredient_name`, `unit`, `current_s
 (88, '特選黑木耳', '份', 100),
 (89, '金針菇', '份', 100),
 (90, '菠菜', '份', 100),
-(91, '茼蒿', '份', 100),
+(91, '茼蒿', '份', 98),
 (92, '山茼蒿', '份', 100);
 
 -- --------------------------------------------------------
@@ -350,8 +351,17 @@ CREATE TABLE `order` (
   `Order_Date` datetime DEFAULT NULL COMMENT '訂購日期',
   `Order_exit` tinyint(4) DEFAULT NULL COMMENT '訂單是否已完成 (0=否, 1=是)',
   `Pickup_Code` varchar(10) DEFAULT NULL COMMENT '取餐編號',
-  `Remark` varchar(500) NOT NULL COMMENT '備注'
+  `Order_Remark` text DEFAULT NULL COMMENT '訂單備註，包含辣度、口味、作法及配料等自定義選項'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- 傾印資料表的資料 `order`
+--
+
+INSERT INTO `order` (`Order_ID`, `Customer_ID`, `Order_Date`, `Order_exit`, `Pickup_Code`, `Order_Remark`) VALUES
+(1, 11, '2025-05-26 23:02:55', 1, '1', '辣度: 無, 口味: 不加醬, 作法: 全湯, 蔥: 不加蔥, 酸菜: 不加酸菜'),
+(2, 11, '2025-05-26 23:09:54', 1, '2', '辣度: 包辣, 口味: 豚骨, 作法: 乾, 蔥: 多蔥, 酸菜: 多加酸菜'),
+(3, 11, '2025-05-26 23:20:04', 1, '3', '辣度: 無, 口味: 不加醬, 作法: 全湯, 蔥: 不加蔥, 酸菜: 不加酸菜');
 
 -- --------------------------------------------------------
 
@@ -366,6 +376,16 @@ CREATE TABLE `order_item` (
   `quantity` int(11) DEFAULT NULL COMMENT '數量',
   `unit_price` decimal(10,2) DEFAULT NULL COMMENT '單價'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- 傾印資料表的資料 `order_item`
+--
+
+INSERT INTO `order_item` (`Item_ID`, `Menu_ID`, `Order_ID`, `quantity`, `unit_price`) VALUES
+(1, 3, 1, 3, 150.00),
+(2, 6, 1, 2, 120.00),
+(3, 2, 2, 1, 150.00),
+(4, 2, 3, 1, 150.00);
 
 -- --------------------------------------------------------
 
@@ -564,7 +584,7 @@ ALTER TABLE `qa`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `Customer_ID` int(11) NOT NULL AUTO_INCREMENT COMMENT '顧客 ID', AUTO_INCREMENT=11;
+  MODIFY `Customer_ID` int(11) NOT NULL AUTO_INCREMENT COMMENT '顧客 ID', AUTO_INCREMENT=12;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `ingredient`
@@ -582,13 +602,13 @@ ALTER TABLE `menu`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `order`
 --
 ALTER TABLE `order`
-  MODIFY `Order_ID` int(11) NOT NULL AUTO_INCREMENT COMMENT '訂單 ID';
+  MODIFY `Order_ID` int(11) NOT NULL AUTO_INCREMENT COMMENT '訂單 ID', AUTO_INCREMENT=4;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `order_item`
 --
 ALTER TABLE `order_item`
-  MODIFY `Item_ID` int(11) NOT NULL AUTO_INCREMENT COMMENT '訂單項目 ID';
+  MODIFY `Item_ID` int(11) NOT NULL AUTO_INCREMENT COMMENT '訂單項目 ID', AUTO_INCREMENT=5;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `product`

@@ -165,6 +165,132 @@
 
         <!-- Section Title -->
         <div class="container section-title" data-aos="fade-up">
+          <h2>訂單備注</h2>
+          <p><span class="description-title">訂單備注</span></p>
+        </div><!-- End Section Title -->
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+          <!-- 辣度 -->
+          <fieldset class="form-group mb-4">
+            <legend class="mb-2">請選擇辣度：</legend>
+            <div class="d-flex flex-wrap gap-2">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="無" name="spiciness" value="無" required checked>
+                <label for="無" class="form-check-label">無</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="再微辣" name="spiciness" value="再微辣" required>
+                <label for="再微辣" class="form-check-label">再微辣</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="微辣" name="spiciness" value="微辣" required>
+                <label for="微辣" class="form-check-label">微辣</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="小辣" name="spiciness" value="小辣" required>
+                <label for="小辣" class="form-check-label">小辣</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="中辣" name="spiciness" value="中辣" required>
+                <label for="中辣" class="form-check-label">中辣</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="中小辣" name="spiciness" value="中小辣" required>
+                <label for="中小辣" class="form-check-label">中小辣</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="包辣" name="spiciness" value="包辣" required>
+                <label for="包辣" class="form-check-label">包辣</label>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- 口味 -->
+          <fieldset class="form-group mb-4">
+            <legend class="mb-2">請選擇口味：</legend>
+            <div class="d-flex flex-wrap gap-2">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="重" name="flavor" value="重" required checked>
+                <label for="重" class="form-check-label">重</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="清淡" name="flavor" value="清淡" required>
+                <label for="清淡" class="form-check-label">清淡</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="不加醬" name="flavor" value="不加醬" required>
+                <label for="不加醬" class="form-check-label">不加醬</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="麻辣" name="flavor" value="麻辣" required>
+                <label for="麻辣" class="form-check-label">麻辣</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="豚骨" name="flavor" value="豚骨" required>
+                <label for="豚骨" class="form-check-label">豚骨</label>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- 作法 -->
+          <fieldset class="form-group mb-4">
+            <legend class="mb-2">請選擇作法：</legend>
+            <div class="d-flex flex-wrap gap-2">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="乾" name="preparation" value="乾" required>
+                <label for="乾" class="form-check-label">乾</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="半湯" name="preparation" value="半湯" required>
+                <label for="半湯" class="form-check-label">半湯</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="全湯" name="preparation" value="全湯" required checked>
+                <label for="全湯" class="form-check-label">全湯</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="包湯" name="preparation" value="包湯" required>
+                <label for="包湯" class="form-check-label">包湯</label>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- 配料 -->
+          <fieldset class="form-group mb-4">
+            <legend class="mb-2">配料內容：</legend>
+
+            <!-- 蔥 -->
+            <div class="mb-2">
+              <label class="form-label">蔥：</label>
+              <div class="d-flex flex-wrap gap-2">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="多蔥" name="scallion_option" value="多蔥" required>
+                  <label for="多蔥" class="form-check-label">多蔥</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="不加蔥" name="scallion_option" value="不加蔥" required checked>
+                  <label for="不加蔥" class="form-check-label">不加蔥</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- 酸菜 -->
+            <div class="mb-2">
+              <label class="form-label">酸菜：</label>
+              <div class="d-flex flex-wrap gap-2">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="多加" name="pickled_cabbage_option" value="多加酸菜" required>
+                  <label for="多加" class="form-check-label">多加</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="不加" name="pickled_cabbage_option" value="不加酸菜" required checked>
+                  <label for="不加" class="form-check-label">不加</label>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="container section-title" data-aos="fade-up">
           <h2>您的資訊</h2>
           <p><span class="description-title">您的結帳資訊</span></p>
         </div><!-- End Section Title -->
@@ -187,7 +313,8 @@
           <div class="mb-3 row">
             <label for="phone" class="col-sm-2 col-form-label">電話 <span style="color: red;">*</span></label>
             <div class="col-sm-10">
-              <input type="tel" class="form-control" id="phone" name="phone" placeholder="請輸入聯絡電話" required pattern="09\d{8}" title="請輸入正確的手機格式，例如 0912345678">
+              <input type="tel" class="form-control" id="phone" name="phone" placeholder="請輸入聯絡電話" required
+                pattern="09\d{8}" title="請輸入正確的手機格式，例如 0912345678">
             </div>
           </div>
 
@@ -278,7 +405,8 @@
   </footer>
 
   <!-- Scroll Top -->
-  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <!-- Preloader -->
   <div id="preloader"></div>

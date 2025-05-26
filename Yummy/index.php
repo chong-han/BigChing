@@ -1,4 +1,16 @@
 <?php
+// 包含資料庫連線檔案
+include("db_connection.php");
+// 查詢客戶人數
+$stmt = $pdo->query("SELECT COUNT(*) AS total_customers FROM customer");
+$customer_result = $stmt->fetch();
+// 查詢品項數量
+$stmt = $pdo->query("SELECT COUNT(*) AS total_menu FROM menu");
+$menu_result = $stmt->fetch();
+// 查詢訂單數量
+$stmt = $pdo->query("SELECT COUNT(*) AS total_order FROM `order`");
+$order_result = $stmt->fetch();
+
 session_start();
 $pickupMessage = '';
 
@@ -194,7 +206,7 @@ if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
 
           <div class="col-lg-3 col-md-6">
             <div class="stats-item text-center w-100 h-100">
-              <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1"
+              <span data-purecounter-start="0" data-purecounter-end="<?= $customer_result['total_customers'] ?>" data-purecounter-duration="1"
                 class="purecounter"></span>
               <p>客戶</p>
             </div>
@@ -202,7 +214,7 @@ if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
 
           <div class="col-lg-3 col-md-6">
             <div class="stats-item text-center w-100 h-100">
-              <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="1"
+              <span data-purecounter-start="0" data-purecounter-end="<?= $menu_result['total_menu'] ?>" data-purecounter-duration="1"
                 class="purecounter"></span>
               <p>品項</p>
             </div>
@@ -218,9 +230,9 @@ if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
 
           <div class="col-lg-3 col-md-6">
             <div class="stats-item text-center w-100 h-100">
-              <span data-purecounter-start="0" data-purecounter-end="32" data-purecounter-duration="1"
+              <span data-purecounter-start="0" data-purecounter-end="<?= $order_result['total_order'] ?>" data-purecounter-duration="1"
                 class="purecounter"></span>
-              <p>訂購次數</p>
+              <p>總訂購次數</p>
             </div>
           </div><!-- End Stats Item -->
 
@@ -301,9 +313,6 @@ if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
             </div>
             <div class="row gy-5">
               <?php
-              // 包含資料庫連線檔案
-              include("db_connection.php");
-
               $query = "SELECT * FROM menu WHERE is_available = 1 AND category = '火鍋類' ORDER BY Menu_ID";
               $result = $conn->query($query);
 
