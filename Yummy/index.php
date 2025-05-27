@@ -319,7 +319,7 @@ if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
               if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                   $menu_name = htmlspecialchars($row['Menu_name']);
-                  $menu_price = number_format($row['sell_price'], 2);
+                  $menu_price = htmlspecialchars($row['sell_price']);
                   $product_id = $row['Product_ID'];
 
                   // 查詢這個產品對應的食材名稱
@@ -382,7 +382,7 @@ if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
                   }
                   echo '<h4>' . htmlspecialchars($row['Menu_name']) . '</h4>';
                   // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
-                  echo '<p class="price">$' . number_format($row['sell_price'], 2) . '</p>';
+                  echo '<p class="price">$' . htmlspecialchars($row['sell_price']) . '</p>';
                   echo '<button class="btn btn-outline-danger col-lg-6" onclick="showSuccessToast()" data-name="' . htmlspecialchars($row['Menu_name']) . '" data-price="' . $row['sell_price'] . '">加入購物車</button>';
                   echo '</div><!-- Menu Item -->';
                 }
@@ -413,7 +413,7 @@ if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
                   }
                   echo '<h4>' . htmlspecialchars($row['Menu_name']) . '</h4>';
                   // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
-                  echo '<p class="price">$' . number_format($row['sell_price'], 2) . '</p>';
+                  echo '<p class="price">$' . htmlspecialchars($row['sell_price']) . '</p>';
                   echo '<button class="btn btn-outline-danger col-lg-6" onclick="showSuccessToast()" data-name="' . htmlspecialchars($row['Menu_name']) . '" data-price="' . $row['sell_price'] . '">加入購物車</button>';
                   echo '</div><!-- Menu Item -->';
                 }
@@ -444,7 +444,7 @@ if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
                   }
                   echo '<h4>' . htmlspecialchars($row['Menu_name']) . '</h4>';
                   // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
-                  echo '<p class="price">$' . number_format($row['sell_price'], 2) . '</p>';
+                  echo '<p class="price">$' . htmlspecialchars($row['sell_price']) . '</p>';
                   echo '<button class="btn btn-outline-danger col-lg-6" onclick="showSuccessToast()" data-name="' . htmlspecialchars($row['Menu_name']) . '" data-price="' . $row['sell_price'] . '">加入購物車</button>';
                   echo '</div><!-- Menu Item -->';
                 }
@@ -475,7 +475,7 @@ if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
                   }
                   echo '<h4>' . htmlspecialchars($row['Menu_name']) . '</h4>';
                   // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
-                  echo '<p class="price">$' . number_format($row['sell_price'], 2) . '</p>';
+                  echo '<p class="price">$' . htmlspecialchars($row['sell_price']) . '</p>';
                   echo '<button class="btn btn-outline-danger col-lg-6" onclick="showSuccessToast()" data-name="' . htmlspecialchars($row['Menu_name']) . '" data-price="' . $row['sell_price'] . '">加入購物車</button>';
                   echo '</div><!-- Menu Item -->';
                 }
@@ -506,7 +506,7 @@ if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
                   }
                   echo '<h4>' . htmlspecialchars($row['Menu_name']) . '</h4>';
                   // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
-                  echo '<p class="price">$' . number_format($row['sell_price'], 2) . '</p>';
+                  echo '<p class="price">$' . htmlspecialchars($row['sell_price']) . '</p>';
                   echo '<button class="btn btn-outline-danger col-lg-6" onclick="showSuccessToast()" data-name="' . htmlspecialchars($row['Menu_name']) . '" data-price="' . $row['sell_price'] . '">加入購物車</button>';
                   echo '</div><!-- Menu Item -->';
                 }
@@ -537,7 +537,7 @@ if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
                   }
                   echo '<h4>' . htmlspecialchars($row['Menu_name']) . '</h4>';
                   // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
-                  echo '<p class="price">$' . number_format($row['sell_price'], 2) . '</p>';
+                  echo '<p class="price">$' . htmlspecialchars($row['sell_price']) . '</p>';
                   echo '<button class="btn btn-outline-danger col-lg-6" onclick="showSuccessToast()" data-name="' . htmlspecialchars($row['Menu_name']) . '" data-price="' . $row['sell_price'] . '">加入購物車</button>';
                   echo '</div><!-- Menu Item -->';
                 }
@@ -568,7 +568,7 @@ if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
                   }
                   echo '<h4>' . htmlspecialchars($row['Menu_name']) . '</h4>';
                   // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
-                  echo '<p class="price">$' . number_format($row['sell_price'], 2) . '</p>';
+                  echo '<p class="price">$' . htmlspecialchars($row['sell_price']) . '</p>';
                   echo '<button class="btn btn-outline-danger col-lg-6" onclick="showSuccessToast()" data-name="' . htmlspecialchars($row['Menu_name']) . '" data-price="' . $row['sell_price'] . '">加入購物車</button>';
                   echo '</div><!-- Menu Item -->';
                 }

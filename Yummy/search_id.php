@@ -228,16 +228,16 @@
 
             echo "<tr class='text-center'>";
             echo "<td>" . htmlspecialchars($item['Menu_name']) . "</td>";
-            echo "<td>$" . htmlspecialchars(number_format($item['unit_price'], 2)) . "</td>";
+            echo "<td>$" . htmlspecialchars($item['unit_price']) . "</td>";
             echo "<td>" . htmlspecialchars($item['quantity']) . "</td>";
-            echo "<td>$" . htmlspecialchars(number_format($item_total, 2)) . "</td>";
+            echo "<td>$" . htmlspecialchars($item_total) . "</td>";
             echo "</tr>";
           }
 
           echo "</tbody>";
           echo "</table>";
           echo "<div class='text-end mt-2 me-4'>
-                <strong>訂單總金額 : </strong>  <strong>$" . htmlspecialchars(number_format($total_order_price, 2)) . "</strong>
+                <strong>訂單總金額 : $" . htmlspecialchars($total_order_price) . " </strong>
           </div>";
         } else {
           echo "<p>此訂單沒有任何項目。</p>";

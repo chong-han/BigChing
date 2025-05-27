@@ -233,20 +233,20 @@ function renderCart() {
       const row = document.createElement("tr");
       row.innerHTML = `
         <td data-label="品項">${item.name}</td>
-        <td data-label="單價">$${item.price.toFixed(2)}</td>
+        <td data-label="單價">$${item.price}</td>
         <td data-label="數量">
           <button class="btn qty-btn" data-action="decrease" data-name="${item.name}">-</button>
           <span class="mx-1">${item.qty}</span>
           <button class="btn qty-btn" data-action="increase" data-name="${item.name}">+</button>
         </td>
-        <td data-label="小計">$${subtotal.toFixed(2)}</td>
+        <td data-label="小計">$${subtotal}</td>
         <td><button class="btn btn-sm btn-danger" data-action="remove" data-name="${item.name}">刪除</button></td>
       `;
       cartTableBody.appendChild(row);
     });
   }
 
-  cartTotal.textContent = `$${total.toFixed(2)}`;
+  cartTotal.textContent = `$${total}`;
   cartCount.textContent = items.reduce((sum, item) => sum + item.qty, 0);
   updateCartStorage();
 }
@@ -332,7 +332,7 @@ checkoutBtn.addEventListener("click", (e) => {
   const totalInput = document.createElement('input'); //
   totalInput.type = 'hidden'; //
   totalInput.name = 'cart_total'; //
-  totalInput.value = parseFloat(cartTotal.textContent.replace('$', '')).toFixed(2); //
+  totalInput.value = parseFloat(cartTotal.textContent.replace('$', '')); //
   form.appendChild(totalInput); //
 
   // 為購物車中的每個品項添加隱藏 input 欄位
@@ -348,7 +348,7 @@ checkoutBtn.addEventListener("click", (e) => {
     const priceInput = document.createElement('input'); //
     priceInput.type = 'hidden'; //
     priceInput.name = `item_price[${index}]`; //
-    priceInput.value = item.price.toFixed(2); //
+    priceInput.value = item.price; //
     form.appendChild(priceInput); //
 
     // 品項數量
@@ -362,7 +362,7 @@ checkoutBtn.addEventListener("click", (e) => {
     const subtotalInput = document.createElement('input'); //
     subtotalInput.type = 'hidden'; //
     subtotalInput.name = `item_subtotal[${index}]`; //
-    subtotalInput.value = (item.price * item.qty).toFixed(2); //
+    subtotalInput.value = (item.price * item.qty); //
     form.appendChild(subtotalInput); //
   });
 
