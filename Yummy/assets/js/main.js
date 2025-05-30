@@ -378,4 +378,10 @@ checkoutBtn.addEventListener("click", (e) => {
 // 初始化渲染購物車
 renderCart();
 
+// 在上一頁中加入這段 script（如該頁需要每次返回都重新整理）
+window.addEventListener("pageshow", function (event) {
+  if (event.persisted || performance.getEntriesByType("navigation")[0].type === "back_forward") {
+    window.location.reload();
+  }
+});
 

@@ -143,6 +143,64 @@ try {
     $_SESSION['pickupNumber'] = str_pad($pickupNumber, 3, '0', STR_PAD_LEFT);
     $_SESSION['orderid'] = $orderId;
 
+
+    // // 從你的 LINE Developers Channel 設定中取得
+    // $channelAccessToken = '你的 LINE Channel Access Token';
+    // $userId = '點餐用戶的 LINE User ID'; // 這需要從你的資料庫或某處取得
+
+    // // 假設你已經從 Session 中取得這些資訊
+    // $pickupNumber = $_SESSION['pickupNumber'] ?? null;
+    // $orderId = $_SESSION['orderid'] ?? null;
+
+    // if ($pickupNumber && $orderId && $userId) {
+    //     $messageText = "您的訂單已確認！\n";
+    //     $messageText .= "取餐號碼: {$pickupNumber}\n";
+    //     $messageText .= "訂單編號: {$orderId}\n";
+    //     $messageText .= "請憑此號碼取餐，謝謝！";
+
+    //     $messages = [
+    //         [
+    //             'type' => 'text',
+    //             'text' => $messageText
+    //         ]
+    //     ];
+
+    //     $data = [
+    //         'to' => $userId,
+    //         'messages' => $messages
+    //     ];
+
+    //     $headers = [
+    //         'Content-Type: application/json',
+    //         'Authorization: Bearer ' . $channelAccessToken
+    //     ];
+
+    //     $ch = curl_init('https://api.line.me/v2/bot/message/push'); // 使用 push API
+    //     curl_setopt($ch, CURLOPT_POST, true);
+    //     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+    //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    //     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+    //     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+    //     $result = curl_exec($ch);
+    //     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    //     if (curl_errno($ch)) {
+    //         error_log('LINE API Error: ' . curl_error($ch));
+    //         // 處理錯誤
+    //     } else if ($httpCode != 200) {
+    //         error_log("LINE API Push Failed (HTTP {$httpCode}): " . $result);
+    //         // 處理非 200 狀態碼
+    //     } else {
+    //         echo "訊息已成功發送給用戶！";
+    //     }
+
+    //     curl_close($ch);
+    // } else {
+    //     // 處理缺少必要資訊的情況
+    //     echo "缺少發送訊息所需的資訊。";
+    // }
+
     header("Location: index.php"); // ✅ 跳轉回首頁
     exit;
 } catch (Exception $e) {
