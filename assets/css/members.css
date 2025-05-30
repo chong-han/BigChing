@@ -1,0 +1,82 @@
+#top-link {
+	background: rgb(199, 195, 195);
+	box-shadow: inset 0 0 0.25em 0 rgba(0, 0, 0, 0.125);
+	} 
+
+/* 增加更具視覺層次感的底層設計 */
+body .member-main {
+padding: 40px 20px;
+background-color: #f5f5f5;
+min-height: 100vh;
+font-family: 'Arial', sans-serif;
+}
+
+body .member-title {
+margin-bottom: 20px;
+font-size: 2.2em;
+font-weight: bold;
+text-align: left; /* 取消main.css的置中設定 */
+color: #444; /* 改為較深的灰色 */
+padding: 10px 0;
+border-bottom: 3px solid #ddd;
+}
+
+body .member-container {
+display: flex;
+flex-wrap: wrap;
+gap: 20px;
+padding-top: 120px; /* 根據 #header 高度調整 */
+justify-content: center; /* 使卡片排列更為整齊 */
+}
+
+body .member-card {
+	background-color: white;
+	border-radius: 12px;
+	padding: 20px;
+	width: 280px;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+  }
+
+body .member-card:hover {
+transform: translateY(-5px); /* 鼠標懸停時卡片微微上升 */
+box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); /* 增強陰影 */
+}
+
+body .member-card h3 {
+margin: 0 0 15px;
+font-size: 1.6em;
+color: #333;
+font-weight: 600;
+}
+
+body .member-card p {
+	margin: 4px 0;
+	color: #666;
+	font-size: 1em;
+	white-space: nowrap; /* 不換行 */
+	overflow: hidden; /* 隱藏超過寬度的文字 */
+	text-overflow: ellipsis; /* 顯示省略號 */
+	cursor: pointer; /* 顯示指標，提示可以懸浮 */
+  }
+  
+  body .member-card:hover p {
+	white-space: normal; /* 懸浮時允許換行 */
+	overflow: visible; /* 顯示完整文字 */
+	text-overflow: clip; /* 去掉省略號 */
+  }
+  
+  body .member-card p strong {
+	color: #333;
+  }
+
+  @media (max-width: 768px) {
+	/* 當畫面寬度小於等於768px（手機或平板）時，啟用觸控效果 */
+	body .member-card:hover p {
+	  white-space: normal; /* 觸控設備展示完整文本 */
+	  overflow: visible; /* 顯示完整文字 */
+	  text-overflow: clip; /* 去掉省略號 */
+	}
+  }

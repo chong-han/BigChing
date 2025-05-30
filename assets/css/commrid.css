@@ -1,0 +1,236 @@
+.scroll-to-top-3 {
+  position: fixed;
+  bottom: 195px;
+  right: 20px;
+  background-color: #007BFF;
+  color: #fff;
+  border-radius: 10%;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 50px;
+  z-index: 999;
+}
+
+#porrid-link {
+    background: rgb(199, 195, 195);
+    box-shadow: inset 0 0 0.25em 0 rgba(0, 0, 0, 0.125);
+    } 
+
+    #main {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        padding: 3rem;
+    }
+
+    .card {
+        background-color: #f2f2f2;
+        border-radius: 16px;
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        padding: 2.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+        border: 1px solid #eee;
+    }
+
+    .card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .card h3 {
+        font-size: 1.4rem;
+        color: #333;
+        margin-bottom: 0.75rem;
+    }
+
+    .card p {
+        font-size: 1.1rem;
+        color: #666;
+        margin-bottom: 0.75rem;
+    }
+/* 彈出視窗的外觀樣式 */
+
+/* 遮罩的外觀樣式 */
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.popup {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  max-width: 500px;
+  background-color: #ffffff;
+  border: 1px solid #8d8d8d;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 5px;
+  overflow-y: auto;
+  z-index: 9999;
+}
+
+/* 彈出視窗中的標籤樣式 */
+.popup label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #000;
+}
+
+/* 彈出視窗中的輸入元素樣式 */
+.popup input,
+.popup select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #000;
+  font-weight: bold;
+}
+.popup textarea {
+  min-width: 100%;
+  resize: vertical;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #000;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popuple {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  max-width: 500px; /* 最大寬度 */
+  background-color: #ffffff;
+  border: 1px solid #8d8d8d;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+  padding: 20px;
+  border-radius: 5px;
+  overflow-y: auto;
+  }
+
+  /* 彈出視窗中的標籤樣式 */
+  .popuple label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #000;
+  }
+  
+  /* 彈出視窗中的輸入元素樣式 */
+  .popuple input,
+  .popuple select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #000;
+  font-weight: bold;
+  }
+
+
+.action-tow {
+  display: flex;
+  align-items: center;
+}
+
+/* 確定和取消按鈕的樣式 */
+#advanced-search-confirm-button,
+#advanced-search-cancel-button,
+#edit-confirm-button,
+#edit-cancel-button,
+#hotpot-edit-confirm-button,
+#hotpot-edit-cancel-button{
+  margin-top: 20px;
+  padding: 10px 20px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+#advanced-search-confirm-button,
+#edit-confirm-button,
+#hotpot-edit-confirm-button{
+  background-color: #4CAF50;
+  color: #fff;
+  width: 40%;
+  margin-right: 10px;
+}
+
+#advanced-search-confirm-button:hover,
+#edit-confirm-button:hover,
+#hotpot-edit-confirm-button:hover {
+  background-color: #45a049;
+}
+
+#advanced-search-cancel-button,
+#edit-cancel-button,
+#hotpot-edit-cancel-button{
+  background-color: #FF5733;
+  color: #fff;
+  width: 40%;
+}
+
+#advanced-search-cancel-button:hover
+#edit-cancel-button:hover,
+#hotpot-edit-cancel-button:hover{
+  background-color: #e64d30;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}  
+
+
+.swal2-container.swal2-center.swal2-backdrop-show {
+  z-index: 99999;
+  }
+
+/* 修改動畫視窗標題的樣式 */
+.swal2-title {
+	background-color: #ffffff;
+	margin-bottom: 10px;
+	
+  }
+/* 修改動畫視窗標題的樣式 */
+.swal2-text {
+	background-color: #767676;
+	margin-bottom: 10px;
+  padding: 2px 5px;
+  border-radius: 5px;
+	/* 可添加其他樣式，如文字陰影、粗體等 */
+  } 
