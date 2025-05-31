@@ -7,15 +7,15 @@ include("db_connection.php"); //
 // 包括了基本資料和所有自定義選項
 if (
     !isset(
-        $_POST['name'],
-        $_POST['phone'],
-        $_POST['item_name'],
-        $_POST['spiciness'],
-        $_POST['flavor'],
-        $_POST['preparation'],
-        $_POST['scallion_option'],
-        $_POST['pickled_cabbage_option']
-    )
+    $_POST['name'],
+    $_POST['phone'],
+    $_POST['item_name'],
+    $_POST['spiciness'],
+    $_POST['flavor'],
+    $_POST['preparation'],
+    $_POST['scallion_option'],
+    $_POST['pickled_cabbage_option']
+)
 ) {
     die("資料不完整，請確保所有必要欄位都已填寫。");
 }
@@ -96,7 +96,7 @@ try {
         // 插入訂單項目
         $itemInsert->execute([$menuId, $orderId, $qty, $price]);
 
-        if ($category === '火鍋類') {
+        if ($category === '火鍋類' || $category === '套餐類') {//0531新增$category === '套餐類'
             // 火鍋類：查 HotPot_ID → hotpot 表查食材
             $stmt = $pdo->prepare("SELECT HotPot_ID FROM product WHERE Product_ID = ?");
             $stmt->execute([$productId]);
