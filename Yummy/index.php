@@ -65,7 +65,7 @@ if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
 
   <?php if (!empty($pickupMessage)): ?>
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
+      document.addEventListener("DOMContentLoaded", function() {
         Swal.fire({
           icon: 'info',
           title: '取餐通知',
@@ -144,7 +144,7 @@ if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
 
       <script>
         // 查詢訂單
-        document.getElementById("orderQueryBtn").addEventListener("click", function () {
+        document.getElementById("orderQueryBtn").addEventListener("click", function() {
           Swal.fire({
             title: "請輸入您的訂單編號",
             html: `
@@ -597,6 +597,28 @@ if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
 
               if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
+                  $product_id = $row['Product_ID'];
+
+                  // 查詢這個產品對應的食材名稱
+                  $ingredient_query = "
+                    SELECT DISTINCT i.Ingredient_name
+                    FROM product p
+                    JOIN hotpot h ON p.HotPot_ID = h.HotPot_ID
+                    JOIN ingredient i ON h.Ingredient_ID = i.Ingredient_ID
+                    WHERE p.Product_ID = $product_id
+                  ";
+                  $ingredient_result = $conn->query($ingredient_query);
+
+                  $ingredient_list = [];
+                  if ($ingredient_result->num_rows > 0) {
+                    while ($ing = $ingredient_result->fetch_assoc()) {
+                      $ingredient_list[] = $ing['Ingredient_name'];
+                    }
+                  }
+
+                  // 將食材用逗號分隔列出
+                  $ingredient_string = htmlspecialchars(implode(', ', $ingredient_list));
+
                   echo '<div class="col-6 col-lg-4 menu-item">';
                   $imagePath = './assets/img/套餐類/' . $row['Menu_name'] . '.jpg';
                   if (file_exists($imagePath)) {
@@ -605,7 +627,7 @@ if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
                     echo '<a href="./assets/img/暫無圖片.png" class="glightbox"><img src="./assets/img/暫無圖片.png" class="menu-img img-fluid" alt=""></a>';
                   }
                   echo '<h4>' . htmlspecialchars($row['Menu_name']) . '</h4>';
-                  // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
+                  echo '<p class="ingredients text-truncate" onclick="this.classList.toggle(\'expanded\')" title="點擊展開 / 收合">' . $ingredient_string . '</p>';
                   echo '<p class="price">$' . htmlspecialchars($row['sell_price']) . '</p>';
                   echo '<button class="btn btn-outline-danger col-lg-6" onclick="showSuccessToast()" data-name="' . htmlspecialchars($row['Menu_name']) . '" data-price="' . $row['sell_price'] . '">加入購物車</button>';
                   echo '</div><!-- Menu Item -->';
