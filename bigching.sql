@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2025-05-30 15:50:26
+-- 產生時間： 2025-05-31 10:08:54
 -- 伺服器版本： 10.4.32-MariaDB
 -- PHP 版本： 8.0.30
 
@@ -50,7 +50,8 @@ INSERT INTO `customer` (`Customer_ID`, `Customer_name`, `Customer_mail`, `Custom
 (9, '蔡宏仁', 'hongren.tsai@example.com', '0990123456'),
 (10, '林宜蓁', 'yichen.lin@example.com', '0911222333'),
 (11, 'James', 'thriving.gh@gmail.com', '0963937958'),
-(13, '廖琮瀚', 'wjian7088@gmail.com', '0907230010');
+(13, '廖琮瀚', 'wjian7088@gmail.com', '0907230010'),
+(15, '0531james', 'thriving.gh@gmail.com', '0963937958');
 
 -- --------------------------------------------------------
 
@@ -107,7 +108,16 @@ INSERT INTO `hotpot` (`HotPot_ID`, `HotPot_name`, `Ingredient_ID`, `quantity`) V
 (7, '招牌鴨血臭臭鍋', 57, 1),
 (7, '招牌鴨血臭臭鍋', 62, 1),
 (7, '招牌鴨血臭臭鍋', 64, 1),
-(7, '招牌鴨血臭臭鍋', 79, 1);
+(7, '招牌鴨血臭臭鍋', 79, 1),
+(8, '經典主食套餐', 1, 1),
+(8, '經典主食套餐', 14, 1),
+(8, '經典主食套餐', 54, 3),
+(8, '經典主食套餐', 73, 1),
+(9, '豐盛肉品套餐', 2, 1),
+(9, '豐盛肉品套餐', 12, 1),
+(9, '豐盛肉品套餐', 13, 1),
+(9, '豐盛肉品套餐', 64, 2),
+(9, '豐盛肉品套餐', 71, 1);
 
 -- --------------------------------------------------------
 
@@ -127,8 +137,8 @@ CREATE TABLE `ingredient` (
 --
 
 INSERT INTO `ingredient` (`Ingredient_ID`, `Ingredient_name`, `unit`, `current_stock`) VALUES
-(1, '韓國拉麵', '份', 100),
-(2, '蒸煮麵', '份', 99),
+(1, '韓國拉麵', '份', 97),
+(2, '蒸煮麵', '份', 98),
 (3, '媽媽拉麵', '份', 100),
 (4, '烏龍麵', '份', 100),
 (5, '王子麵', '份', 100),
@@ -138,9 +148,9 @@ INSERT INTO `ingredient` (`Ingredient_ID`, `Ingredient_name`, `unit`, `current_s
 (9, '關廟麵', '份', 100),
 (10, '入味冬粉', '份', 100),
 (11, '入味河粉', '份', 100),
-(12, '無骨湯燒雞排', '份', 100),
-(13, '滷肉排', '份', 98),
-(14, '豬肉片', '份', 99),
+(12, '無骨湯燒雞排', '份', 99),
+(13, '滷肉排', '份', 97),
+(14, '豬肉片', '份', 96),
 (15, '牛肉片', '份', 100),
 (16, '隔間肉', '份', 100),
 (17, '大腸', '份', 100),
@@ -180,7 +190,7 @@ INSERT INTO `ingredient` (`Ingredient_ID`, `Ingredient_name`, `unit`, `current_s
 (51, '油條', '份', 100),
 (52, '手工水晶餃', '份', 100),
 (53, '雪魚丸', '粒', 299),
-(54, '魚餃', '粒', 285),
+(54, '魚餃', '粒', 276),
 (55, '燕餃', '粒', 300),
 (56, '鴨肉丸', '粒', 300),
 (57, '小蝦球', '粒', 295),
@@ -190,16 +200,16 @@ INSERT INTO `ingredient` (`Ingredient_ID`, `Ingredient_name`, `unit`, `current_s
 (61, '爆濃起司球', '顆', 92),
 (62, '麻吉燒（芝麻）', '顆', 95),
 (63, '麻吉燒（花生）', '顆', 95),
-(64, '新竹大貢丸', '顆', 91),
+(64, '新竹大貢丸', '顆', 89),
 (65, '蟹肉棒', '條', 95),
 (66, '起司魚豆腐', '塊', 97),
 (67, '鑫鑫腸', '條', 100),
 (68, '韓國年糕', '條', 94),
 (69, '烏蛋', '顆', 100),
 (70, '章魚球', '顆', 100),
-(71, '花椰菜', '份', 100),
+(71, '花椰菜', '份', 99),
 (72, '水蓮', '份', 94),
-(73, '高麗菜', '份', 100),
+(73, '高麗菜', '份', 97),
 (74, '地瓜葉', '份', 100),
 (75, '空心菜', '份', 100),
 (76, '娃娃菜', '份', 100),
@@ -339,7 +349,9 @@ INSERT INTO `menu` (`Menu_ID`, `Product_ID`, `Menu_name`, `sell_price`, `categor
 (96, 96, '金針菇', 20, '香菇類', 1, 'bigching_pic/金針菇.jpg'),
 (97, 97, '菠菜', 20, '冬季蔬菜類', 1, 'bigching_pic/菠菜.jpg'),
 (98, 98, '茼蒿', 20, '冬季蔬菜類', 1, 'bigching_pic/茼蒿.jpg'),
-(99, 99, '山茼蒿', 20, '冬季蔬菜類', 1, 'bigching_pic/山茼蒿.jpg');
+(99, 99, '山茼蒿', 20, '冬季蔬菜類', 1, 'bigching_pic/山茼蒿.jpg'),
+(100, 100, '經典主食套餐', 135, '套餐類', 1, NULL),
+(101, 101, '豐盛肉品套餐', 155, '套餐類', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -381,7 +393,11 @@ INSERT INTO `order` (`Order_ID`, `Customer_ID`, `Order_Date`, `Order_exit`, `Pic
 (26, 7, '2025-05-24 18:56:09', 0, '843473', '辣度: 小辣, 口味: 重, 作法: 包湯, 蔥: 不加蔥, 酸菜: 多加'),
 (27, 9, '2025-05-18 18:56:09', 0, '291238', '辣度: 再微辣, 口味: 豚骨, 作法: 半湯, 蔥: 多蔥, 酸菜: 多加'),
 (28, 8, '2025-05-18 18:56:09', 0, '380816', '辣度: 中辣, 口味: 清淡, 作法: 全湯, 蔥: 多蔥, 酸菜: 多加'),
-(29, 11, '2025-05-08 18:56:09', 0, '023008', '辣度: 包辣, 口味: 清淡, 作法: 乾, 蔥: 不加蔥, 酸菜: 不加');
+(29, 11, '2025-05-08 18:56:09', 0, '023008', '辣度: 包辣, 口味: 清淡, 作法: 乾, 蔥: 不加蔥, 酸菜: 不加'),
+(36, 11, '2025-05-31 15:19:17', 1, '1', '辣度: 無, 口味: 重, 作法: 全湯, 蔥: 不加蔥, 酸菜: 不加酸菜'),
+(37, 15, '2025-05-31 15:21:17', 1, '2', '辣度: 包辣, 口味: 豚骨, 作法: 包湯, 蔥: 不加蔥, 酸菜: 不加酸菜'),
+(38, 11, '2025-05-31 15:24:37', 1, '3', '辣度: 包辣, 口味: 豚骨, 作法: 包湯, 蔥: 不加蔥, 酸菜: 不加酸菜'),
+(39, 11, '2025-05-31 15:38:52', 1, '4', '辣度: 無, 口味: 重, 作法: 全湯, 蔥: 不加蔥, 酸菜: 不加酸菜');
 
 -- --------------------------------------------------------
 
@@ -441,7 +457,11 @@ INSERT INTO `order_item` (`Item_ID`, `Menu_ID`, `Order_ID`, `quantity`, `unit_pr
 (54, 22, 27, 4, 30),
 (55, 96, 28, 4, 20),
 (56, 24, 28, 4, 40),
-(57, 58, 29, 2, 15);
+(57, 58, 29, 2, 15),
+(64, 100, 36, 1, 135),
+(65, 100, 37, 1, 135),
+(66, 100, 38, 1, 135),
+(67, 101, 39, 1, 155);
 
 -- --------------------------------------------------------
 
@@ -559,7 +579,9 @@ INSERT INTO `product` (`Product_ID`, `cost_price`, `Ingredient_ID`, `HotPot_ID`)
 (96, 15, 89, NULL),
 (97, 15, 90, NULL),
 (98, 15, 91, NULL),
-(99, 15, 92, NULL);
+(99, 15, 92, NULL),
+(100, 125, NULL, 8),
+(101, 100, NULL, 9);
 
 -- --------------------------------------------------------
 
@@ -640,7 +662,7 @@ ALTER TABLE `qa`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `Customer_ID` int(11) NOT NULL AUTO_INCREMENT COMMENT '顧客 ID', AUTO_INCREMENT=15;
+  MODIFY `Customer_ID` int(11) NOT NULL AUTO_INCREMENT COMMENT '顧客 ID', AUTO_INCREMENT=16;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `ingredient`
@@ -652,25 +674,25 @@ ALTER TABLE `ingredient`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `Menu_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+  MODIFY `Menu_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `order`
 --
 ALTER TABLE `order`
-  MODIFY `Order_ID` int(11) NOT NULL AUTO_INCREMENT COMMENT '訂單 ID', AUTO_INCREMENT=30;
+  MODIFY `Order_ID` int(11) NOT NULL AUTO_INCREMENT COMMENT '訂單 ID', AUTO_INCREMENT=40;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `order_item`
 --
 ALTER TABLE `order_item`
-  MODIFY `Item_ID` int(11) NOT NULL AUTO_INCREMENT COMMENT '訂單項目 ID', AUTO_INCREMENT=58;
+  MODIFY `Item_ID` int(11) NOT NULL AUTO_INCREMENT COMMENT '訂單項目 ID', AUTO_INCREMENT=68;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `product`
 --
 ALTER TABLE `product`
-  MODIFY `Product_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+  MODIFY `Product_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
 
 --
 -- 已傾印資料表的限制式
