@@ -65,7 +65,7 @@ if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
 
   <?php if (!empty($pickupMessage)): ?>
     <script>
-      document.addEventListener("DOMContentLoaded", function() {
+      document.addEventListener("DOMContentLoaded", function () {
         Swal.fire({
           icon: 'info',
           title: '取餐通知',
@@ -144,7 +144,7 @@ if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
 
       <script>
         // 查詢訂單
-        document.getElementById("orderQueryBtn").addEventListener("click", function() {
+        document.getElementById("orderQueryBtn").addEventListener("click", function () {
           Swal.fire({
             title: "請輸入您的訂單編號",
             html: `
@@ -206,16 +206,16 @@ if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
 
           <div class="col-lg-3 col-md-6">
             <div class="stats-item text-center w-100 h-100">
-              <span data-purecounter-start="0" data-purecounter-end="<?= $customer_result['total_customers'] ?>" data-purecounter-duration="1"
-                class="purecounter"></span>
+              <span data-purecounter-start="0" data-purecounter-end="<?= $customer_result['total_customers'] ?>"
+                data-purecounter-duration="1" class="purecounter"></span>
               <p>客戶</p>
             </div>
           </div><!-- End Stats Item -->
 
           <div class="col-lg-3 col-md-6">
             <div class="stats-item text-center w-100 h-100">
-              <span data-purecounter-start="0" data-purecounter-end="<?= $menu_result['total_menu'] ?>" data-purecounter-duration="1"
-                class="purecounter"></span>
+              <span data-purecounter-start="0" data-purecounter-end="<?= $menu_result['total_menu'] ?>"
+                data-purecounter-duration="1" class="purecounter"></span>
               <p>品項</p>
             </div>
           </div><!-- End Stats Item -->
@@ -230,8 +230,8 @@ if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
 
           <div class="col-lg-3 col-md-6">
             <div class="stats-item text-center w-100 h-100">
-              <span data-purecounter-start="0" data-purecounter-end="<?= $order_result['total_order'] ?>" data-purecounter-duration="1"
-                class="purecounter"></span>
+              <span data-purecounter-start="0" data-purecounter-end="<?= $order_result['total_order'] ?>"
+                data-purecounter-duration="1" class="purecounter"></span>
               <p>總訂購次數</p>
             </div>
           </div><!-- End Stats Item -->
@@ -302,6 +302,12 @@ if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
               <h4>其他類</h4>
             </a>
           </li><!-- End tab nav item -->
+          <!-- 0531 tab nav item -->
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-package">
+              <h4>套餐類</h4>
+            </a>
+          </li><!-- 0531End tab nav item -->
 
         </ul>
 
@@ -578,6 +584,39 @@ if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
               ?>
             </div>
           </div><!-- End 其他類 Menu Content -->
+
+          <!-- 0531套餐類 Menu Content -->
+          <div class="tab-pane fade" id="menu-package">
+            <div class="tab-header text-center">
+              <h3>套餐類</h3>
+            </div>
+            <div class="row gy-5">
+              <?php
+              $query = "SELECT * FROM menu WHERE is_available= 1 and category='套餐類' ORDER BY Menu_ID";
+              $result = $conn->query($query);
+
+              if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                  echo '<div class="col-6 col-lg-4 menu-item">';
+                  $imagePath = './assets/img/套餐類/' . $row['Menu_name'] . '.jpg';
+                  if (file_exists($imagePath)) {
+                    echo '<a href="' . $imagePath . '" class="glightbox"><img src="' . $imagePath . '" class="menu-img img-fluid" alt=""></a>';
+                  } else {
+                    echo '<a href="./assets/img/暫無圖片.png" class="glightbox"><img src="./assets/img/暫無圖片.png" class="menu-img img-fluid" alt=""></a>';
+                  }
+                  echo '<h4>' . htmlspecialchars($row['Menu_name']) . '</h4>';
+                  // echo '<p class="ingredients"> Lorem, deren, trataro, filede, nerada </p>';
+                  echo '<p class="price">$' . htmlspecialchars($row['sell_price']) . '</p>';
+                  echo '<button class="btn btn-outline-danger col-lg-6" onclick="showSuccessToast()" data-name="' . htmlspecialchars($row['Menu_name']) . '" data-price="' . $row['sell_price'] . '">加入購物車</button>';
+                  echo '</div><!-- Menu Item -->';
+                }
+              } else {
+                echo '<div class="col-12 text-center"><p>目前沒有可用的菜單項目</p></div>';
+              }
+              ?>
+            </div>
+          </div><!-- 0531End 套餐類 Menu Content -->
+
 
         </div>
       </div>
