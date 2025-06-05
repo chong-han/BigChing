@@ -291,6 +291,34 @@
         </div>
 
         <div class="container section-title" data-aos="fade-up">
+          <h2>取餐時間</h2>
+          <p><span class="description-title">您的取餐時間</span></p>
+        </div><!-- End Section Title -->
+
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+          <fieldset class="form-group mb-4">
+            <legend class="mb-2">請選擇取餐時間：</legend>
+            <div class="d-flex flex-wrap gap-2">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="pickup_option" id="now" value="now" required checked>
+                <label class="form-check-label" for="now">現在取餐</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="pickup_option" id="custom" value="custom" required>
+                <label class="form-check-label" for="custom">自訂取餐時間</label>
+              </div>
+            </div>
+
+            <!-- 自訂時間區塊 -->
+            <div id="custom-time-inputs" class="mt-2" style="display: none;">
+              <label for="pickup_datetime" class="form-label">選擇日期與時間：</label>
+              <input type="datetime-local" id="pickup_datetime" name="pickup_datetime" class="form-control">
+            </div>
+          </fieldset>
+        </div>
+
+
+        <div class="container section-title" data-aos="fade-up">
           <h2>您的資訊</h2>
           <p><span class="description-title">您的結帳資訊</span></p>
         </div><!-- End Section Title -->
@@ -422,8 +450,8 @@
   <!-- SweetAlert2 CDN -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-  <!-- 延時提交 -->
   <script>
+    // 延時提交
     $('form').on('submit', function(e) {
       e.preventDefault(); // 阻止預設提交行為（防止立即刷新）
 
@@ -435,6 +463,29 @@
         $btn.removeClass('sending');
         $form.off('submit').submit(); // 移除防止送出的攔截器並真正送出
       }, 2000); // 等 2 秒
+    });
+
+    // 顯示或隱藏自訂時間區塊
+    document.addEventListener('DOMContentLoaded', function() {
+      const nowRadio = document.getElementById('now');
+      const customRadio = document.getElementById('custom');
+      const customInputs = document.getElementById('custom-time-inputs');
+      const datetimeInput = document.getElementById('pickup_datetime');
+
+      function toggleCustomTime() {
+        if (customRadio.checked) {
+          customInputs.style.display = 'block';
+          datetimeInput.setAttribute('required', 'required');
+        } else {
+          customInputs.style.display = 'none';
+          datetimeInput.removeAttribute('required');
+          datetimeInput.value = ''; // 清空值避免提交舊資料
+        }
+      }
+
+      nowRadio.addEventListener('change', toggleCustomTime);
+      customRadio.addEventListener('change', toggleCustomTime);
+      toggleCustomTime(); // 初始化狀態
     });
   </script>
 

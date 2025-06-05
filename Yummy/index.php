@@ -253,6 +253,11 @@ if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
 
       <div class="container">
 
+        <div class="col-lg-6 mx-auto text-center mb-4 d-flex align-items-center justify-content-center globalSearch">
+          <input type="text" id="globalSearch" class="form-control" placeholder="搜尋所有食材..." style="max-width: 300px;">
+          <button id="clearSearch" class="btn ms-2">全部顯示</button>
+        </div>
+
         <ul class="nav nav-tabs d-flex justify-content-center" data-aos="fade-up" data-aos-delay="100">
 
           <li class="nav-item">
@@ -302,12 +307,11 @@ if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
               <h4>其他類</h4>
             </a>
           </li><!-- End tab nav item -->
-          <!-- 0531 tab nav item -->
           <li class="nav-item">
             <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-package">
               <h4>套餐類</h4>
             </a>
-          </li><!-- 0531End tab nav item -->
+          </li><!-- End tab nav item -->
 
         </ul>
 
@@ -348,7 +352,7 @@ if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
                   // 將食材用逗號分隔列出
                   $ingredient_string = htmlspecialchars(implode(', ', $ingredient_list));
 
-                  echo '<div class="col-6 col-lg-4 menu-item">';
+                  echo '<div class="col-6 col-lg-4 menu-item" data-name="' . htmlspecialchars($row['Menu_name']) . '">';
                   if ($menu_name == "麻辣鴨血臭臭鍋") {
                     echo '<a href="./assets/img/火鍋類/麻辣鴨血臭臭鍋.jpg" class="glightbox"><img src="./assets/img/火鍋類/麻辣鴨血臭臭鍋.jpg" class="menu-img img-fluid" alt=""></a>';
                   } else {
@@ -379,7 +383,7 @@ if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
 
               if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
-                  echo '<div class="col-6 col-lg-4 menu-item">';
+                  echo '<div class="col-6 col-lg-4 menu-item" data-name="' . htmlspecialchars($row['Menu_name']) . '">';
                   $imagePath = './assets/img/火鍋料類/' . $row['Menu_name'] . '.jpg';
                   if (file_exists($imagePath)) {
                     echo '<a href="' . $imagePath . '" class="glightbox"><img src="' . $imagePath . '" class="menu-img img-fluid" alt=""></a>';
@@ -410,7 +414,7 @@ if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
 
               if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
-                  echo '<div class="col-6 col-lg-4 menu-item">';
+                  echo '<div class="col-6 col-lg-4 menu-item" data-name="' . htmlspecialchars($row['Menu_name']) . '">';
                   $imagePath = './assets/img/主食麵類/' . $row['Menu_name'] . '.jpg';
                   if (file_exists($imagePath)) {
                     echo '<a href="' . $imagePath . '" class="glightbox"><img src="' . $imagePath . '" class="menu-img img-fluid" alt=""></a>';
@@ -441,7 +445,7 @@ if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
 
               if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
-                  echo '<div class="col-6 col-lg-4 menu-item">';
+                  echo '<div class="col-6 col-lg-4 menu-item" data-name="' . htmlspecialchars($row['Menu_name']) . '">';
                   $imagePath = './assets/img/上等肉類/' . $row['Menu_name'] . '.jpg';
                   if (file_exists($imagePath)) {
                     echo '<a href="' . $imagePath . '" class="glightbox"><img src="' . $imagePath . '" class="menu-img img-fluid" alt=""></a>';
@@ -472,7 +476,7 @@ if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
 
               if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
-                  echo '<div class="col-6 col-lg-4 menu-item">';
+                  echo '<div class="col-6 col-lg-4 menu-item" data-name="' . htmlspecialchars($row['Menu_name']) . '">';
                   $imagePath = './assets/img/豆品類/' . $row['Menu_name'] . '.jpg';
                   if (file_exists($imagePath)) {
                     echo '<a href="' . $imagePath . '" class="glightbox"><img src="' . $imagePath . '" class="menu-img img-fluid" alt=""></a>';
@@ -503,7 +507,7 @@ if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
 
               if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
-                  echo '<div class="col-6 col-lg-4 menu-item">';
+                  echo '<div class="col-6 col-lg-4 menu-item" data-name="' . htmlspecialchars($row['Menu_name']) . '">';
                   $imagePath = './assets/img/冬季蔬菜類/' . $row['Menu_name'] . '.jpg';
                   if (file_exists($imagePath)) {
                     echo '<a href="' . $imagePath . '" class="glightbox"><img src="' . $imagePath . '" class="menu-img img-fluid" alt=""></a>';
@@ -534,7 +538,7 @@ if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
 
               if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
-                  echo '<div class="col-6 col-lg-4 menu-item">';
+                  echo '<div class="col-6 col-lg-4 menu-item" data-name="' . htmlspecialchars($row['Menu_name']) . '">';
                   $imagePath = './assets/img/香菇類/' . $row['Menu_name'] . '.jpg';
                   if (file_exists($imagePath)) {
                     echo '<a href="' . $imagePath . '" class="glightbox"><img src="' . $imagePath . '" class="menu-img img-fluid" alt=""></a>';
@@ -565,7 +569,7 @@ if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
 
               if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
-                  echo '<div class="col-6 col-lg-4 menu-item">';
+                  echo '<div class="col-6 col-lg-4 menu-item" data-name="' . htmlspecialchars($row['Menu_name']) . '">';
                   $imagePath = './assets/img/其他類/' . $row['Menu_name'] . '.jpg';
                   if (file_exists($imagePath)) {
                     echo '<a href="' . $imagePath . '" class="glightbox"><img src="' . $imagePath . '" class="menu-img img-fluid" alt=""></a>';
@@ -619,7 +623,7 @@ if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
                   // 將食材用逗號分隔列出
                   $ingredient_string = htmlspecialchars(implode(', ', $ingredient_list));
 
-                  echo '<div class="col-6 col-lg-4 menu-item">';
+                  echo '<div class="col-6 col-lg-4 menu-item" data-name="' . htmlspecialchars($row['Menu_name']) . '">';
                   $imagePath = './assets/img/套餐類/' . $row['Menu_name'] . '.jpg';
                   if (file_exists($imagePath)) {
                     echo '<a href="' . $imagePath . '" class="glightbox"><img src="' . $imagePath . '" class="menu-img img-fluid" alt=""></a>';
@@ -931,6 +935,79 @@ if (isset($_SESSION['pickupNumber']) && isset($_SESSION['orderid'])) {
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
   <!-- SweetAlert2 CDN -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+    let debounceTimeout;
+    const searchInput = document.getElementById('globalSearch');
+    const clearBtn = document.getElementById('clearSearch');
+
+    clearBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      searchInput.dispatchEvent(new Event('input')); // 觸發搜尋輸入事件，恢復全部菜單
+    });
+
+    document.getElementById('globalSearch').addEventListener('input', function() {
+      clearTimeout(debounceTimeout);
+      debounceTimeout = setTimeout(() => {
+        const keyword = this.value.toLowerCase().trim();
+        const allItems = document.querySelectorAll('.menu-item');
+        const allCategoryTabs = document.querySelectorAll('.tab-pane');
+        const allNavLinks = document.querySelectorAll('.nav-link');
+
+        allItems.forEach(item => {
+          const name = item.getAttribute('data-name').toLowerCase();
+          item.style.display = name.includes(keyword) ? '' : 'none';
+        });
+
+        let firstMatchedTabId = null;
+
+        allCategoryTabs.forEach(tab => {
+          const visibleItems = tab.querySelectorAll('.menu-item:not([style*="display: none"])');
+
+          if (keyword !== '') {
+            if (visibleItems.length > 0) {
+              tab.classList.add('show', 'active');
+              tab.style.display = '';
+
+              if (!firstMatchedTabId) {
+                firstMatchedTabId = tab.id;
+              }
+            } else {
+              tab.classList.remove('show', 'active');
+              tab.style.display = 'none';
+            }
+          } else {
+            tab.classList.remove('show', 'active');
+            tab.style.display = '';
+          }
+        });
+
+        if (keyword === '') {
+          if (allCategoryTabs.length > 0) {
+            allCategoryTabs[0].classList.add('show', 'active');
+          }
+          allNavLinks.forEach(link => link.classList.remove('active'));
+          if (allNavLinks.length > 0) {
+            allNavLinks[0].classList.add('active');
+          }
+        } else if (firstMatchedTabId) {
+          allNavLinks.forEach(link => {
+            link.classList.remove('active');
+            const target = link.getAttribute('data-bs-target');
+            if (target === `#${firstMatchedTabId}`) {
+              link.classList.add('active');
+            }
+          });
+        }
+
+        // 如果用 AOS，可以在這裡呼叫刷新
+        if (typeof AOS !== 'undefined') {
+          AOS.refresh();
+        }
+      }, 200);
+    });
+  </script>
+
 
   <!-- Main JS File -->
   <script src="assets/js/main.js" async></script>
